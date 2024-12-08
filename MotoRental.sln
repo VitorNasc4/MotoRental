@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{52D27B2C-27F9-4F31-824D-A1F24F20BB35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoRental.API", "src\MotoRental.API\MotoRental.API.csproj", "{346570D8-678F-4949-B0D2-6333D48A6825}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoRental.Application", "src\MotoRental.Application\MotoRental.Application.csproj", "{1274E865-CF36-4AC5-8E57-6205CB2DA740}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoRental.Core", "src\MotoRental.Core\MotoRental.Core.csproj", "{05161C20-C856-486B-AF05-767B58048550}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoRental.Infrastructure", "src\MotoRental.Infrastructure\MotoRental.Infrastructure.csproj", "{37A5D50E-E292-47C7-B0C9-43D250FF0C90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotoRental.Test", "src\MotoRental.Test\MotoRental.Test.csproj", "{36AEEDBA-E6D3-46FD-87B8-7573C1E8CF2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{346570D8-678F-4949-B0D2-6333D48A6825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{346570D8-678F-4949-B0D2-6333D48A6825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{346570D8-678F-4949-B0D2-6333D48A6825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{346570D8-678F-4949-B0D2-6333D48A6825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1274E865-CF36-4AC5-8E57-6205CB2DA740}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1274E865-CF36-4AC5-8E57-6205CB2DA740}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1274E865-CF36-4AC5-8E57-6205CB2DA740}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1274E865-CF36-4AC5-8E57-6205CB2DA740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05161C20-C856-486B-AF05-767B58048550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05161C20-C856-486B-AF05-767B58048550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05161C20-C856-486B-AF05-767B58048550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05161C20-C856-486B-AF05-767B58048550}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A5D50E-E292-47C7-B0C9-43D250FF0C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A5D50E-E292-47C7-B0C9-43D250FF0C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A5D50E-E292-47C7-B0C9-43D250FF0C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A5D50E-E292-47C7-B0C9-43D250FF0C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36AEEDBA-E6D3-46FD-87B8-7573C1E8CF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36AEEDBA-E6D3-46FD-87B8-7573C1E8CF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36AEEDBA-E6D3-46FD-87B8-7573C1E8CF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36AEEDBA-E6D3-46FD-87B8-7573C1E8CF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{346570D8-678F-4949-B0D2-6333D48A6825} = {52D27B2C-27F9-4F31-824D-A1F24F20BB35}
+		{1274E865-CF36-4AC5-8E57-6205CB2DA740} = {52D27B2C-27F9-4F31-824D-A1F24F20BB35}
+		{05161C20-C856-486B-AF05-767B58048550} = {52D27B2C-27F9-4F31-824D-A1F24F20BB35}
+		{37A5D50E-E292-47C7-B0C9-43D250FF0C90} = {52D27B2C-27F9-4F31-824D-A1F24F20BB35}
+		{36AEEDBA-E6D3-46FD-87B8-7573C1E8CF2A} = {52D27B2C-27F9-4F31-824D-A1F24F20BB35}
+	EndGlobalSection
+EndGlobal
