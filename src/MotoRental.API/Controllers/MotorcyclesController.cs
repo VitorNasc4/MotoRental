@@ -75,7 +75,7 @@ namespace MotoRental.API.Controllers
         // api/motorcycles
         [HttpPost]
         [AllowAnonymous]
-        // [Authorize(Roles = "admin")]
+        // [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> CreateMotorcycle([FromBody] CreateMotorcycleCommand command)
         { 
             try

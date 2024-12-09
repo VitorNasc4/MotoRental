@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MotoRental.Application.Commands.CreateUser;
 using FluentValidation;
+using MotoRental.Core.Entities;
 
 namespace MotoRental.Application.Validators
 {
@@ -26,21 +27,13 @@ namespace MotoRental.Application.Validators
                 .WithMessage("Name is required");
 
             RuleFor(u => u.Role)
-                .Must(ValidRole)
+                .Must(User.IsValidRoleType)
                 .WithMessage("Allowed roles are 'admin' and 'delivery'");
         }
 
         public static bool ValidPassword(string password)
         {
             return password.Length >= 8;
-        }
-        public static bool ValidRole(string role)
-        {
-            if (role != "delivery" && role != "admin")
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

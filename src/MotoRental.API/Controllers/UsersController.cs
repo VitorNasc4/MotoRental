@@ -45,7 +45,7 @@ namespace MotoRental.API.Controllers
         }
         // api/users/admin
         [HttpPost("admin")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> CreateUserAdmin([FromBody] CreateUserAdminCommand command)
         {
             var id = await _mediator.Send(command);

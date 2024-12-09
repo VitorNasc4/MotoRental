@@ -11,7 +11,7 @@ namespace MotoRental.Core.Entities
             FullName = fullName;
             Email = email;
             Password = password;
-            Role = role ?? "delivery";
+            Role = role ?? RoleTypes.Delivery;
         }
 
         public string FullName { get; private set; }
@@ -23,6 +23,24 @@ namespace MotoRental.Core.Entities
         {
             return new NotificationInfoDTO(user.Id, user.FullName, user.Email);
         }
+
+        public static bool IsValidRoleType(string role)
+        {
+            var formatedRole = role.ToUpper();
+            if (formatedRole != RoleTypes.Admin && formatedRole != RoleTypes.Delivery)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+    }
+
+    public static class RoleTypes
+    {
+        public static readonly string Admin = "ADMIN";
+        public static readonly string Delivery = "DELIVERY";
 
     }
 }

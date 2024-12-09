@@ -17,7 +17,7 @@ namespace MotoRental.Application.Commands.CreateUser
         public static User ToEntity(CreateUserAdminCommand command, string passwordHash = null)
         {
             var password = passwordHash is not null ? passwordHash : command.Password;
-            return new User(command.FullName, command.Email, password, command.Role);
+            return new User(command.FullName, command.Email, password, command.Role.ToUpper());
         }
 
     }
