@@ -17,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MotoRental.Application.Commands.UserCommands.CreateUser;
+using MotoRental.Application.Commands.CreateUser;
 using MotoRental.Infrastructure.MessageBus;
 using MotoRental.Infrastructure.NotificationService;
 using System.Linq;
@@ -33,6 +33,7 @@ builder.Services.AddDbContext<MotoRentalDbContext>
 // Injeções de dependências
 builder.Services.AddMediatR(typeof(CreateUserCommand));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMessageBusService, MessageBusService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();

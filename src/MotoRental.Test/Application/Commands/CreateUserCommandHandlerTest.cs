@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MotoRental.Application.Commands.UserCommands.CreateUser;
+using MotoRental.Application.Commands.CreateUser;
 using MotoRental.Core.Entities;
 using MotoRental.Core.Repositories;
 using MotoRental.Core.Services;
