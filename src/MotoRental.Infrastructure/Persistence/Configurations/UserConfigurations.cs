@@ -13,6 +13,22 @@ namespace MotoRental.Infrastructure.Persistence.Configurations
         {
             builder
                 .HasKey(s => s.Id);
+
+            builder
+                .HasIndex(s => s.Email)
+                .IsUnique();
+
+            builder
+                .Property(u => u.Email)
+                .IsRequired();
+
+            builder
+                .Property(u => u.FullName)
+                .IsRequired();
+
+            builder
+                .Property(u => u.Password)
+                .IsRequired();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using MotoRental.Application.Commands.LoginUser;
-using MotoRental.Application.Commands.UserCommands.CreateUser;
+using MotoRental.Application.Commands.CreateUser;
 using MotoRental.Application.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +21,7 @@ namespace MotoRental.API.Controllers
 
         // api/users/1
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             var getUserQuery = new GetUserQuery(id);
             var user = await _mediator.Send(getUserQuery);
@@ -37,20 +37,20 @@ namespace MotoRental.API.Controllers
         // api/users
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Post([FromBody] CreateUserCommand command)
+        public IActionResult CreateUser([FromBody] CreateUserCommand command)
         {
             var id = _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetById), new { id = id }, command);
+            return CreatedAtAction(nameof(GetUserById), new { id = id }, command);
         }
-        // api/users
+        // api/users/admin
         [HttpPost("admin")]
         [Authorize(Roles = "admin")]
-        public IActionResult PostAdmin([FromBody] CreateUserAdminCommand command)
+        public async Task<IActionResult> CreateUserAdmin([FromBody] CreateUserAdminCommand command)
         {
-            var id = _mediator.Send(command);
+            var id = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetById), new { id = id }, command);
+            return CreatedAtAction(nameof(GetUserById), new { id = id }, command);
         }
 
         // api/users/1/login

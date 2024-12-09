@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MotoRental.Core.Entities;
 using MotoRental.Core.Repositories;
 using MotoRental.Core.Services;
-using MotoRental.Infrastructure.Persistence;
 using MediatR;
 
-namespace MotoRental.Application.Commands.UserCommands.CreateUser
+namespace MotoRental.Application.Commands.CreateUser
 {
     public class CreateUserAdminCommandHandler : IRequestHandler<CreateUserAdminCommand, int>
     {

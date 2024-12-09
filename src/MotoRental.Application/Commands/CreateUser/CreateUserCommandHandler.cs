@@ -9,7 +9,7 @@ using MotoRental.Core.Services;
 using MotoRental.Infrastructure.Persistence;
 using MediatR;
 
-namespace MotoRental.Application.Commands.UserCommands.CreateUser
+namespace MotoRental.Application.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
     {

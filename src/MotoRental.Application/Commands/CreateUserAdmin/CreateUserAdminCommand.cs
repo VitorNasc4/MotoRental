@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using MotoRental.Core.Entities;
 
-namespace MotoRental.Application.Commands.UserCommands.CreateUser
+namespace MotoRental.Application.Commands.CreateUser
 {
     public class CreateUserAdminCommand : IRequest<int>
     {

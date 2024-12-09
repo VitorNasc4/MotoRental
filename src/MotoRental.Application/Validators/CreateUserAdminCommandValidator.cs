@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using MotoRental.Application.Commands.UserCommands.CreateUser;
+using MotoRental.Application.Commands.CreateUser;
 using FluentValidation;
 
 namespace MotoRental.Application.Validators
