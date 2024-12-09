@@ -34,6 +34,7 @@ builder.Services.AddDbContext<MotoRentalDbContext>
 builder.Services.AddMediatR(typeof(CreateUserCommand));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+builder.Services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMessageBusService, MessageBusService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
@@ -111,7 +112,7 @@ using (var scope = app.Services.CreateScope())
         var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.Role == "admin");
         if (existingUser == null)
         {
-            var user = new User("User Admin", "admin@email.com", authService.ComputeSha256Hash("teste123"), "admin");
+            var user = new User("User Admin", "admin@email.com", authService.ComputeSha256Hash("teste123"), RoleTypes.Admin);
         
             await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync();

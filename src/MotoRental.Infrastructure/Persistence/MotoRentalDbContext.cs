@@ -13,6 +13,7 @@ namespace MotoRental.Infrastructure.Persistence
 
         public DbSet<User> Users { get; set; }
         public DbSet<Motorcycle> Motorcycles { get; set; }
+        public DbSet<DeliveryPerson> DeliveryPersons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
