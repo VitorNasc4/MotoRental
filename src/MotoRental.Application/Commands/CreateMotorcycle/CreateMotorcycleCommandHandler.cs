@@ -1,28 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MotoRental.Core.Entities;
 using MotoRental.Core.Repositories;
 using MotoRental.Core.Services;
-using MotoRental.Infrastructure.Persistence;
 using MediatR;
 using MotoRental.Core.Exceptions;
+using System.Text.Json;
+using System.Text;
 
 namespace MotoRental.Application.Commands.CreateMotorcycle
 {
-    public class CreateMotorcycleCommandHandler : IRequestHandler<CreateMotorcycleCommand, int>
+    public class CreateMotorcycleCommandHandler : IRequestHandler<CreateMotorcycleCommand, Unit>
     {
         private readonly IMotorcycleRepository _motorcycleRepository;
-        private readonly INotificationService _notificationService;
+        private readonly IMessageBusService _messageBusService;
+        private const string QUEUE_NAME = "motorcycle-events";
 
-        public CreateMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository, INotificationService notificationService)
+        public CreateMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository, IMessageBusService messageBusService)
         {
             _motorcycleRepository = motorcycleRepository;
-            _notificationService = notificationService;
+            _messageBusService = messageBusService;
         }
-        public async Task<int> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
             var motorcyclePlateAlreadyExist = await _motorcycleRepository.MotorcyclePlateAlreadyExistsAsync(request.placa);
             
@@ -31,15 +29,14 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
                 throw new MotorcycleAlreadyExistsException(request.placa);
             }
 
-            var motorcycle = CreateMotorcycleCommand.ToEntity(request);
+            var motorcycleDTO = CreateMotorcycleCommand.ToDTO(request);
 
-            await _motorcycleRepository.AddAsync(motorcycle);
+            var motorcycleInfoJson = JsonSerializer.Serialize(motorcycleDTO);
+            var motorcycleInfoBytes = Encoding.UTF8.GetBytes(motorcycleInfoJson);
 
-            // var notificationInfoDTO = Motorcycle.ToDTO(motorcycle);
+            _messageBusService.Publish(QUEUE_NAME, motorcycleInfoBytes);
 
-            // _notificationService.ProcessNotification(notificationInfoDTO);
-
-            return motorcycle.Id;
+            return Unit.Value;
         }
     }
 }

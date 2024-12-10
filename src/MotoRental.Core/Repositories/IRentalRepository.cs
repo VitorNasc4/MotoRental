@@ -10,6 +10,7 @@ namespace MotoRental.Core.Repositories
     {
         Task AddAsync(Rental rental);
         Task<Rental> GetRentalByIdAsync(int id);
+        Task<bool> CheckMotorcycleRentalHistoricAsync(int motorcycleId);
         Task SaveChangesAsync();
     }
 }

@@ -15,13 +15,10 @@ namespace MotoRental.Application.Commands.CreateUser
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
-        private readonly INotificationService _notificationService;
-
-        public CreateUserCommandHandler(IUserRepository userRepository, IAuthService authService, INotificationService notificationService)
+        public CreateUserCommandHandler(IUserRepository userRepository, IAuthService authService)
         {
             _userRepository = userRepository;
             _authService = authService;
-            _notificationService = notificationService;
         }
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
@@ -29,10 +26,6 @@ namespace MotoRental.Application.Commands.CreateUser
             var user = CreateUserCommand.ToEntity(request, passwordHash);
 
             await _userRepository.AddAsync(user);
-
-            var notificationInfoDTO = User.ToDTO(user);
-
-            _notificationService.ProcessNotification(notificationInfoDTO);
 
             return user.Id;
         }

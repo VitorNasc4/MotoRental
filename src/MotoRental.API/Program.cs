@@ -19,8 +19,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MotoRental.Application.Commands.CreateUser;
 using MotoRental.Infrastructure.MessageBus;
-using MotoRental.Infrastructure.NotificationService;
-using System.Linq;
 using MotoRental.Core.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +36,6 @@ builder.Services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>(
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMessageBusService, MessageBusService>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Ajustando HttpClient
 builder.Services.AddHttpClient();

@@ -30,6 +30,10 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
 
             return rental;
         }
+        public async Task<bool> CheckMotorcycleRentalHistoricAsync(int motorcycleId)
+        {
+            return await _dbContext.Rentals.AnyAsync(r => r.MotorcycleId == motorcycleId);
+        }
 
         public async Task SaveChangesAsync()
         {

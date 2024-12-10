@@ -80,9 +80,9 @@ namespace MotoRental.API.Controllers
         { 
             try
             {
-                var id = await _mediator.Send(command);
+                await _mediator.Send(command);
 
-                return CreatedAtAction(nameof(GetMotorcycleById), new { id = id }, command);
+                return Created();
             }
             catch (MotorcycleAlreadyExistsException ex)
             {
@@ -135,6 +135,10 @@ namespace MotoRental.API.Controllers
             catch (MotorcycleNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+            catch (MotorcycleRentalHistoricFoundException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {

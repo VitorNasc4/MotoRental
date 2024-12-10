@@ -15,10 +15,12 @@ namespace MotoRental.Application.Commands.DeleteMotorcycle
     public class DeleteMotorcycleCommandHandler : IRequestHandler<DeleteMotorcycleCommand, Unit>
     {
         private readonly IMotorcycleRepository _motorcycleRepository;
+        private readonly IRentalRepository _rentalRepository;
 
-        public DeleteMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository)
+        public DeleteMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository, IRentalRepository rentalRepository)
         {
             _motorcycleRepository = motorcycleRepository;
+            _rentalRepository = rentalRepository;
         }
         public async Task<Unit> Handle(DeleteMotorcycleCommand request, CancellationToken cancellationToken)
         {
@@ -27,6 +29,13 @@ namespace MotoRental.Application.Commands.DeleteMotorcycle
             if (motorcycleById is null)
             {
                 throw new MotorcycleNotFoundException(request.MotorcycleId);
+            }
+
+            var motorcycleRentalExists = await _rentalRepository.CheckMotorcycleRentalHistoricAsync(request.MotorcycleId);
+
+            if (motorcycleRentalExists)
+            {
+                throw new MotorcycleRentalHistoricFoundException(request.MotorcycleId);
             }
 
             await _motorcycleRepository.RemoveAsync(motorcycleById);

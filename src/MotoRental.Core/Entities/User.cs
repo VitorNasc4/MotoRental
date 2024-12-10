@@ -19,10 +19,6 @@ namespace MotoRental.Core.Entities
         public string Password { get; private set; }
         public string Role { get; private set; }
 
-        public static NotificationInfoDTO ToDTO(User user)
-        {
-            return new NotificationInfoDTO(user.Id, user.FullName, user.Email);
-        }
 
         public static bool IsValidRoleType(string role)
         {

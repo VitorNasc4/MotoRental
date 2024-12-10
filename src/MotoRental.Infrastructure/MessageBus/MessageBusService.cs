@@ -13,12 +13,6 @@ namespace MotoRental.Infrastructure.MessageBus
         private readonly ConnectionFactory _factory;
         public MessageBusService()
         {
-            // _factory = new ConnectionFactory
-            // {
-            //     HostName = "rabbitmq",
-            //     UserName = "guest",
-            //     Password = "guest"
-            // };
             _factory = new ConnectionFactory
             {
                 HostName = "localhost"
