@@ -10,5 +10,6 @@ namespace MotoRental.Core.Repositories
     {
         Task<bool> DeliveryPersonAlreadyExistsAsync(string cnh, string cnpj);
         Task AddAsync(DeliveryPerson deliveryPerson);
+        Task<DeliveryPerson> GetDeliveryPersonByIdAsync(int id);
     }
 }

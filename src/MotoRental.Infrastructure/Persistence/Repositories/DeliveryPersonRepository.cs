@@ -30,5 +30,13 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
 
             return deliveryPerson;
         }
+
+        public async Task<DeliveryPerson> GetDeliveryPersonByIdAsync(int id)
+        {
+            var deliveryPerson = await _dbContext.DeliveryPersons
+                .SingleOrDefaultAsync(dp => dp.Id == id);
+
+            return deliveryPerson;
+        }
     }
 }

@@ -35,6 +35,7 @@ builder.Services.AddMediatR(typeof(CreateUserCommand));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMessageBusService, MessageBusService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
