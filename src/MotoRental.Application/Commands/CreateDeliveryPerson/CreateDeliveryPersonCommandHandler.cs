@@ -17,9 +17,9 @@ namespace MotoRental.Application.Commands.CreateDeliveryPerson
         }
         public async Task<Unit> Handle(CreateDeliveryPersonCommand request, CancellationToken cancellationToken)
         {
-            var deliveryPersonPlateAlreadyExist = await _deliveryPersonRepository.DeliveryPersonAlreadyExistsAsync(request.numero_cnh, request.cnpj);
+            var deliveryPersonAlreadyExist = await _deliveryPersonRepository.DeliveryPersonAlreadyExistsAsync(request.numero_cnh, request.cnpj);
             
-            if (deliveryPersonPlateAlreadyExist)
+            if (deliveryPersonAlreadyExist)
             {
                 throw new DeliveryPersonAlreadyExistsException(request.numero_cnh, request.cnpj);
             }

@@ -109,7 +109,7 @@ using (var scope = app.Services.CreateScope())
     {
         dbContext.Database.Migrate();
 
-        var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.Role == "admin");
+        var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.Role == RoleTypes.Admin);
         if (existingUser == null)
         {
             var user = new User("User Admin", "admin@email.com", authService.ComputeSha256Hash("teste123"), RoleTypes.Admin);
