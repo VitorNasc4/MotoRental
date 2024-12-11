@@ -31,7 +31,7 @@ namespace MotoRental.Application.Commands.UploadCnhImage
 
             var containerName = _configuration["AzureBlobService:ContainerName"];
 
-            var imageUrl = await _imageUploadService.UploadBase64Image(request.imagem_cnh, "containerName");
+            var imageUrl = await _imageUploadService.UploadBase64Image(request.imagem_cnh, containerName);
 
             deliveryPerson.SetCNH_Image(imageUrl);
 

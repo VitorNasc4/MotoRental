@@ -19,7 +19,7 @@ namespace MotoRental.Infrastructure.ImageUploadService
         }
         public async Task<string> UploadBase64Image(string base64Image, string container)
         {
-            var fileName = Guid.NewGuid().ToString() + ".jpg";
+            var fileName = Guid.NewGuid().ToString() + ".png";
 
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(base64Image, ""); 
             
