@@ -20,6 +20,7 @@ using Microsoft.OpenApi.Models;
 using MotoRental.Application.Commands.CreateUser;
 using MotoRental.Infrastructure.MessageBus;
 using MotoRental.Core.Entities;
+using MotoRental.Infrastructure.ImageUploadService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ builder.Services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>(
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMessageBusService, MessageBusService>();
+builder.Services.AddScoped<IImageUploadService, ImageUploadService>();
 
 // Ajustando HttpClient
 builder.Services.AddHttpClient();

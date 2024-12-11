@@ -38,5 +38,10 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
 
             return deliveryPerson;
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

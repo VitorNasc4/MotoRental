@@ -26,6 +26,11 @@ namespace MotoRental.Core.Entities
         public string CNH_Type { get; private set; }
         public string CNH_Image { get; private set; }
 
+        public void SetCNH_Image(string cnh_image)
+        {
+            CNH_Image = cnh_image;
+        }
+
         public static bool IsValidCNH_Type(string cnh_type)
         {
             var cnh = cnh_type.ToUpper();
