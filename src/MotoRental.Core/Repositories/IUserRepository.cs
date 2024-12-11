@@ -8,7 +8,7 @@ namespace MotoRental.Core.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByIdAsync(int id);
+        Task<User> GetUserByIdAsync(string id);
         Task<User> GetUserByEmailAndPasswordAsyn(string email, string passwordHash);
         Task AddAsync(User user);
     }

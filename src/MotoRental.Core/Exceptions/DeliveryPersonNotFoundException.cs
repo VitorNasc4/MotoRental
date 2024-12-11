@@ -7,7 +7,7 @@ namespace MotoRental.Core.Exceptions
 {
     public class DeliveryPersonNotFoundException : Exception
     {
-        public DeliveryPersonNotFoundException(int id)
+        public DeliveryPersonNotFoundException(string id)
             : base($"A delivery person with id '{id}' not found.")
         {
         }

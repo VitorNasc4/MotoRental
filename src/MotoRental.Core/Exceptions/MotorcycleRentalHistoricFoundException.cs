@@ -7,7 +7,7 @@ namespace MotoRental.Core.Exceptions
 {
     public class MotorcycleRentalHistoricFoundException : Exception
     {
-        public MotorcycleRentalHistoricFoundException(int id)
+        public MotorcycleRentalHistoricFoundException(string id)
             : base($"A motorcycle rental exist with id '{id}'.")
         {
         }

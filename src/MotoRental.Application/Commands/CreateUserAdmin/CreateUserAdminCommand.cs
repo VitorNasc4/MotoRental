@@ -7,7 +7,7 @@ using MotoRental.Core.Entities;
 
 namespace MotoRental.Application.Commands.CreateUser
 {
-    public class CreateUserAdminCommand : IRequest<int>
+    public class CreateUserAdminCommand : IRequest<string>
     {
         public string FullName { get; set; }
         public string Password { get; set; }

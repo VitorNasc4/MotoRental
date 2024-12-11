@@ -9,13 +9,13 @@ namespace MotoRental.Application.Commands.UpdateRental
 {
     public class UpdateRentalCommand : IRequest
     {
-        public UpdateRentalCommand(int rentalId, DateTime newDate)
+        public UpdateRentalCommand(string rentalId, DateTime newDate)
         {
             RentalId = rentalId;
             NewDate = newDate;
         }
         
-        public int RentalId { get; set; }
+        public string RentalId { get; set; }
         public DateTime NewDate { get; set; }
     }
 }

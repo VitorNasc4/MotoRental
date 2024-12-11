@@ -15,6 +15,10 @@ namespace MotoRental.Infrastructure.Persistence.Configurations
                 .HasKey(r => r.Id);
 
             builder
+                .Property(s => s.Id)
+                .HasColumnType("text");
+
+            builder
                 .Property(r => r.MotorcycleId)
                 .IsRequired();
 

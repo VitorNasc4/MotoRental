@@ -19,7 +19,7 @@ namespace MotoRental.Application.Commands.CreateDeliveryPerson
 
         public static DeliveryPerson ToEntity(CreateDeliveryPersonCommand command)
         {
-            return new DeliveryPerson(command.identificador, command.nome, command.cnpj, command.data_nascimento, command.numero_cnh, command.tipo_cnh.ToUpper(), command.imagem_cnh = null);
+            return new DeliveryPerson(command.nome, command.cnpj, command.data_nascimento, command.numero_cnh, command.tipo_cnh.ToUpper(), command.imagem_cnh = null);
         }
 
     }

@@ -7,7 +7,7 @@ namespace MotoRental.Core.Exceptions
 {
     public class RentalNotFoundException : Exception
     {
-        public RentalNotFoundException(int id)
+        public RentalNotFoundException(string id)
             : base($"A rental with id '{id}' not found.")
         {
         }

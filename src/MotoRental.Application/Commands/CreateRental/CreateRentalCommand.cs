@@ -10,8 +10,8 @@ namespace MotoRental.Application.Commands.CreateRental
 {
     public class CreateRentalCommand : IRequest<Unit>
     {
-        public int entregador_id { get; set; }
-        public int moto_id { get; set; }
+        public string entregador_id { get; set; }
+        public string moto_id { get; set; }
         public DateTime data_inicio { get; set; }
         public DateTime data_termino { get; set; }
         public DateTime data_previsao_termino { get; set; }

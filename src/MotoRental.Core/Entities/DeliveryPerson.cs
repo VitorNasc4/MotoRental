@@ -7,9 +7,8 @@ namespace MotoRental.Core.Entities
     public class DeliveryPerson : BaseEntity
     {
         private DeliveryPerson() { }
-        public DeliveryPerson(string identifier, string fullName, string cnpj, DateTime birthday, string cnhNumber, string cnhType, string cnhImage)
+        public DeliveryPerson(string fullName, string cnpj, DateTime birthday, string cnhNumber, string cnhType, string cnhImage)
         {
-            Identifier = identifier;
             FullName = fullName;
             CNPJ = cnpj;
             Birthday = birthday;
@@ -18,7 +17,6 @@ namespace MotoRental.Core.Entities
             CNH_Image = cnhImage ?? "";
         }
 
-        public string Identifier { get; private set; }
         public string FullName { get; private set; }
         public string CNPJ { get; private set; }
         public DateTime Birthday { get; private set; }

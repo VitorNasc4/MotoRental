@@ -11,7 +11,7 @@ using MediatR;
 
 namespace MotoRental.Application.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
@@ -20,7 +20,7 @@ namespace MotoRental.Application.Commands.CreateUser
             _userRepository = userRepository;
             _authService = authService;
         }
-        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var passwordHash = _authService.ComputeSha256Hash(request.Password);
             var user = CreateUserCommand.ToEntity(request, passwordHash);

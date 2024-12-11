@@ -9,13 +9,13 @@ namespace MotoRental.Application.Commands.UpdateMotorcycle
 {
     public class UpdateMotorcycleCommand : IRequest
     {
-        public UpdateMotorcycleCommand(int motorcycleId, string newPlate)
+        public UpdateMotorcycleCommand(string motorcycleId, string newPlate)
         {
             MotorcycleId = motorcycleId;
             NewPlate = newPlate;
         }
         
-        public int MotorcycleId { get; set; }
+        public string MotorcycleId { get; set; }
         public string NewPlate { get; set; }
     }
 }

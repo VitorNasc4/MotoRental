@@ -25,7 +25,7 @@ namespace MotoRental.API.Controllers
         // api/motorcycles/1
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetMotorcycleById(int id)
+        public async Task<IActionResult> GetMotorcycleById(string id)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace MotoRental.API.Controllers
         // api/motorcycles/1/plate
         [HttpPut("{id}/plate")]
         [AllowAnonymous]
-        public async Task<ActionResult> ChangePlate(int id, [FromBody] UpdateMotorcycleCommand command)
+        public async Task<ActionResult> ChangePlate(string id, [FromBody] UpdateMotorcycleCommand command)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace MotoRental.API.Controllers
         // api/motorcycles/1
         [HttpDelete("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> DeleteMotorcycle(int id)
+        public async Task<IActionResult> DeleteMotorcycle(string id)
         {
             try
             {

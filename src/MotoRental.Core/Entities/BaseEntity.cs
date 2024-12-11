@@ -7,6 +7,6 @@ namespace MotoRental.Core.Entities
     public abstract class BaseEntity
     {
         protected BaseEntity() { }
-        public int Id { get; private set; }
+        public string Id { get; private set; } = Guid.NewGuid().ToString();
     }
 }

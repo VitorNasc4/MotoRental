@@ -31,7 +31,7 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
             return deliveryPerson;
         }
 
-        public async Task<DeliveryPerson> GetDeliveryPersonByIdAsync(int id)
+        public async Task<DeliveryPerson> GetDeliveryPersonByIdAsync(string id)
         {
             var deliveryPerson = await _dbContext.DeliveryPersons
                 .SingleOrDefaultAsync(dp => dp.Id == id);

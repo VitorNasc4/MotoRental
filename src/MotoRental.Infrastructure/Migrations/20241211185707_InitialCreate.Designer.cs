@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MotoRental.Infrastructure.Migrations
 {
     [DbContext(typeof(MotoRentalDbContext))]
-    [Migration("20241209222438_CreatingDeliveryPersonEntity")]
-    partial class CreatingDeliveryPersonEntity
+    [Migration("20241211185707_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,8 @@ namespace MotoRental.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoRental.Core.Entities.DeliveryPerson", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp with time zone");
@@ -40,6 +37,7 @@ namespace MotoRental.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CNH_Number")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CNH_Type")
@@ -47,13 +45,10 @@ namespace MotoRental.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CNPJ")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Identifier")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -70,14 +65,7 @@ namespace MotoRental.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoRental.Core.Entities.Motorcycle", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Identifier")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("Model")
@@ -100,13 +88,56 @@ namespace MotoRental.Infrastructure.Migrations
                     b.ToTable("Motorcycles");
                 });
 
-            modelBuilder.Entity("MotoRental.Core.Entities.User", b =>
+            modelBuilder.Entity("MotoRental.Core.Entities.Rental", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ActualReturnDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeliveryPersonId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpectedReturnDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MotorcycleId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Penalty")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PlanDailyRate")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("PlanDays")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("TotalCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryPersonId");
+
+                    b.HasIndex("MotorcycleId");
+
+                    b.ToTable("Rentals");
+                });
+
+            modelBuilder.Entity("MotoRental.Core.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -129,6 +160,21 @@ namespace MotoRental.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MotoRental.Core.Entities.Rental", b =>
+                {
+                    b.HasOne("MotoRental.Core.Entities.DeliveryPerson", null)
+                        .WithMany()
+                        .HasForeignKey("DeliveryPersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MotoRental.Core.Entities.Motorcycle", null)
+                        .WithMany()
+                        .HasForeignKey("MotorcycleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -22,7 +22,7 @@ namespace MotoRental.Core.DTOs
 
         public static Motorcycle ToEntity(MotorcycleInfoDTO dto)
         {
-            return new Motorcycle(dto.Identifier, dto.Year, dto.Model, dto.Plate);
+            return new Motorcycle(dto.Year, dto.Model, dto.Plate);
         }
     }
 }

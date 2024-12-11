@@ -9,11 +9,11 @@ namespace MotoRental.Application.Commands.DeleteMotorcycle
 {
     public class DeleteMotorcycleCommand : IRequest<Unit>
     {
-        public DeleteMotorcycleCommand(int motorcycleId)
+        public DeleteMotorcycleCommand(string motorcycleId)
         {
             MotorcycleId = motorcycleId;
         }
-        public int MotorcycleId { get; set; }
+        public string MotorcycleId { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@ namespace MotoRental.Core.Repositories
 {
     public interface IMotorcycleRepository
     {
-        Task<Motorcycle> GetMotorcycleByIdAsync(int id);
+        Task<Motorcycle> GetMotorcycleByIdAsync(string id);
         Task<List<Motorcycle>> GetMotorcyclesByPlateAsync(string plate);
         Task<bool> MotorcyclePlateAlreadyExistsAsync(string plate);
         Task AddAsync(Motorcycle motorcycle);

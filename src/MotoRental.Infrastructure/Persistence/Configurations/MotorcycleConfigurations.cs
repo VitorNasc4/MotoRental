@@ -15,15 +15,16 @@ namespace MotoRental.Infrastructure.Persistence.Configurations
                 .HasKey(s => s.Id);
 
             builder
+                .Property(s => s.Id)
+                .HasColumnType("text");
+
+
+            builder
                 .HasIndex(s => s.Plate)
                 .IsUnique();
 
             builder
                 .Property(u => u.Plate)
-                .IsRequired();
-            
-            builder
-                .Property(u => u.Identifier)
                 .IsRequired();
             
             builder

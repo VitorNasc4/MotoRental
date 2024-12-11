@@ -24,11 +24,8 @@ namespace MotoRental.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoRental.Core.Entities.DeliveryPerson", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp with time zone");
@@ -37,6 +34,7 @@ namespace MotoRental.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CNH_Number")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CNH_Type")
@@ -44,13 +42,10 @@ namespace MotoRental.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CNPJ")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Identifier")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -67,14 +62,7 @@ namespace MotoRental.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoRental.Core.Entities.Motorcycle", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Identifier")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("Model")
@@ -99,17 +87,15 @@ namespace MotoRental.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoRental.Core.Entities.Rental", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("ActualReturnDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DeliveryPersonId")
-                        .HasColumnType("integer");
+                    b.Property<string>("DeliveryPersonId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
@@ -117,8 +103,9 @@ namespace MotoRental.Infrastructure.Migrations
                     b.Property<DateTime>("ExpectedReturnDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("MotorcycleId")
-                        .HasColumnType("integer");
+                    b.Property<string>("MotorcycleId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Penalty")
                         .HasColumnType("decimal(18,2)");
@@ -146,11 +133,8 @@ namespace MotoRental.Infrastructure.Migrations
 
             modelBuilder.Entity("MotoRental.Core.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()

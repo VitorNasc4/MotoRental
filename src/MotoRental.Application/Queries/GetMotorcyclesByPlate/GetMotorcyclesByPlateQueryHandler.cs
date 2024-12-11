@@ -27,7 +27,7 @@ namespace MotoRental.Application.Queries.GetMotorcycleByPlate
 
             foreach (var motorcycle in motorcycles)
             {
-                motorcyclesViewModelList.Add(new MotorcylceViewModel(motorcycle.Identifier, motorcycle.Year, motorcycle.Model, motorcycle.Plate));
+                motorcyclesViewModelList.Add(new MotorcylceViewModel(motorcycle.Id, motorcycle.Year, motorcycle.Model, motorcycle.Plate));
             }
 
             return motorcyclesViewModelList;

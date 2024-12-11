@@ -53,7 +53,7 @@ namespace MotoRental.API.Controllers
         // api/rental/1
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetRentalById(int id)
+        public async Task<IActionResult> GetRentalById(string id)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace MotoRental.API.Controllers
         // api/rental/1/return
         [HttpPut("{id}/return")]
         [AllowAnonymous]
-        public async Task<ActionResult> RentalReturn(int id, [FromBody] UpdateRentalCommand command)
+        public async Task<ActionResult> RentalReturn(string id, [FromBody] UpdateRentalCommand command)
         {
             try
             {

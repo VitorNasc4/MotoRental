@@ -24,7 +24,7 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
         }
 
 
-        public async Task<Motorcycle> GetMotorcycleByIdAsync(int id)
+        public async Task<Motorcycle> GetMotorcycleByIdAsync(string id)
         {
             var motorcycle = await _dbContext.Motorcycles
                 .SingleOrDefaultAsync(m => m.Id == id);

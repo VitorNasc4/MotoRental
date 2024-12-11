@@ -11,7 +11,7 @@ namespace MotoRental.Core.Entities
 
         private Rental() { }
 
-        public Rental(int motorcycleId, int deliveryPersonId, int planDays, DateTime startDate, DateTime endDate, DateTime expectedReturnDate)
+        public Rental(string motorcycleId, string deliveryPersonId, int planDays, DateTime startDate, DateTime endDate, DateTime expectedReturnDate)
         {
             MotorcycleId = motorcycleId;
             DeliveryPersonId = deliveryPersonId;
@@ -24,8 +24,8 @@ namespace MotoRental.Core.Entities
             PlanDailyRate = CalculatePlanDailyRate();
         }
 
-        public int MotorcycleId { get; private set; }
-        public int DeliveryPersonId { get; private set; }
+        public string MotorcycleId { get; private set; }
+        public string DeliveryPersonId { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         public DateTime ExpectedReturnDate { get; private set; }
@@ -39,7 +39,7 @@ namespace MotoRental.Core.Entities
         {
             if (startDate.Date != DateTime.UtcNow.AddDays(1).Date)
             {
-                throw new RentalBadRequestException($"A data de início deve ser {DateTime.UtcNow.AddDays(1):dd/MM/yyyy HH:mm:ss}");
+                throw new RentalBadRequestException($"A data de início deve ser {DateTime.UtcNow.AddDays(1):dd/MM/yyyy}");
             }
 
             return startDate.ToUniversalTime();
@@ -49,7 +49,7 @@ namespace MotoRental.Core.Entities
         {
             if (endDate.Date != StartDate.AddDays(PlanDays).Date)
             {
-                throw new RentalBadRequestException($"De acordo com o seu plano, a data de de entrega deve ser {StartDate.AddDays(PlanDays):dd/MM/yyyy HH:mm:ss}");
+                throw new RentalBadRequestException($"De acordo com o seu plano, a data de de entrega deve ser {StartDate.AddDays(PlanDays):dd/MM/yyyy}");
             }
 
             return endDate.ToUniversalTime();

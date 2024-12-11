@@ -17,7 +17,7 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
 
         public static Motorcycle ToEntity(CreateMotorcycleCommand command)
         {
-            return new Motorcycle(command.identificador, command.ano, command.modelo, command.placa);
+            return new Motorcycle(command.ano, command.modelo, command.placa);
         }
         public static MotorcycleInfoDTO ToDTO(CreateMotorcycleCommand command)
         {

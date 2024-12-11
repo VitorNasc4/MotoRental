@@ -28,7 +28,7 @@ namespace MotoRental.Messaging.Consumer
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                queue: _configuration["AzureBlobService:ContainerName"],
+                queue: _configuration["RabbitmqConfig:QueueName"],
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
@@ -41,7 +41,6 @@ namespace MotoRental.Messaging.Consumer
 
             consumer.Received += async (sender, eventArgs) =>
             {
-                Console.WriteLine("CHEGOOUUU");
                 var byteArray = eventArgs.Body.ToArray();
                 var motorcycleInfoJson = Encoding.UTF8.GetString(byteArray);
                 var motorcycleInfoDTO = JsonSerializer.Deserialize<MotorcycleInfoDTO>(motorcycleInfoJson);
@@ -76,7 +75,7 @@ namespace MotoRental.Messaging.Consumer
 
             };
 
-            _channel.BasicConsume(_configuration["AzureBlobService:ContainerName"], false, consumer);
+            _channel.BasicConsume(_configuration["RabbitmqConfig:QueueName"], false, consumer);
 
             return Task.CompletedTask;
         }

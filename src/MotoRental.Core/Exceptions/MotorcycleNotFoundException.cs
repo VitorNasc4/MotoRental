@@ -7,7 +7,7 @@ namespace MotoRental.Core.Exceptions
 {
     public class MotorcycleNotFoundException : Exception
     {
-        public MotorcycleNotFoundException(int id)
+        public MotorcycleNotFoundException(string id)
             : base($"A motorcycle with id '{id}' not found.")
         {
         }

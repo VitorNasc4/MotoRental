@@ -24,7 +24,7 @@ namespace MotoRental.Application.Queries.GetMotorcycleById
                 throw new MotorcycleNotFoundException(request.Id);
             }
 
-            return new MotorcylceViewModel(motorcycle.Identifier, motorcycle.Year, motorcycle.Model, motorcycle.Plate);
+            return new MotorcylceViewModel(motorcycle.Id, motorcycle.Year, motorcycle.Model, motorcycle.Plate);
         }
     }
 }

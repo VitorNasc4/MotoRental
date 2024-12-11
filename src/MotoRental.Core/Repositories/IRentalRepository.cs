@@ -9,8 +9,8 @@ namespace MotoRental.Core.Repositories
     public interface IRentalRepository
     {
         Task AddAsync(Rental rental);
-        Task<Rental> GetRentalByIdAsync(int id);
-        Task<bool> CheckMotorcycleRentalHistoricAsync(int motorcycleId);
+        Task<Rental> GetRentalByIdAsync(string id);
+        Task<bool> CheckMotorcycleRentalHistoricAsync(string motorcycleId);
         Task SaveChangesAsync();
     }
 }

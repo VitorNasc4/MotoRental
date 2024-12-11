@@ -29,7 +29,7 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
                 .SingleOrDefaultAsync(u => u.Email == email && u.Password == passwordHash);
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(string id)
         {
             var user = await _dbContext.Users
                 .SingleOrDefaultAsync(u => u.Id == id);

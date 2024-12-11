@@ -9,10 +9,10 @@ namespace MotoRental.Application.Queries.GetUser
 {
     public class GetUserQuery : IRequest<UserViewModel>
     {
-        public GetUserQuery(int id)
+        public GetUserQuery(string id)
         {
             Id = id;
         }
-        public int Id { get; private set; }
+        public string Id { get; private set; }
     }
 }

@@ -23,14 +23,14 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Rental> GetRentalByIdAsync(int id)
+        public async Task<Rental> GetRentalByIdAsync(string id)
         {
             var rental = await _dbContext.Rentals
                 .SingleOrDefaultAsync(dp => dp.Id == id);
 
             return rental;
         }
-        public async Task<bool> CheckMotorcycleRentalHistoricAsync(int motorcycleId)
+        public async Task<bool> CheckMotorcycleRentalHistoricAsync(string motorcycleId)
         {
             return await _dbContext.Rentals.AnyAsync(r => r.MotorcycleId == motorcycleId);
         }

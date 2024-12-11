@@ -9,10 +9,10 @@ namespace MotoRental.Application.Queries.GetRentalById
 {
     public class GetRentalByIdQuery : IRequest<RentalViewModel>
     {
-        public GetRentalByIdQuery(int id)
+        public GetRentalByIdQuery(string id)
         {
             Id = id;
         }
-        public int Id { get; private set; }
+        public string Id { get; private set; }
     }
 }

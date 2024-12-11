@@ -21,7 +21,7 @@ namespace MotoRental.API.Controllers
 
         // api/users/1
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(string id)
         {
             var getUserQuery = new GetUserQuery(id);
             var user = await _mediator.Send(getUserQuery);

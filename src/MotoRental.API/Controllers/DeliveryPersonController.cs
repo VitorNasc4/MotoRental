@@ -27,7 +27,7 @@ namespace MotoRental.API.Controllers
         { 
             try
             {
-                var id = await _mediator.Send(command);
+                await _mediator.Send(command);
 
                 return Created();
             }
@@ -44,7 +44,7 @@ namespace MotoRental.API.Controllers
         [HttpPost("{id}/cnh")]
         [AllowAnonymous]
         // [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> UploadCnhImage(int id, [FromBody] UploadCnhImageCommand command)
+        public async Task<IActionResult> UploadCnhImage(string id, [FromBody] UploadCnhImageCommand command)
         { 
             try
             {
