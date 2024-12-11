@@ -35,8 +35,8 @@ namespace MotoRental.Core.Entities
 
     public static class RoleTypes
     {
-        public static readonly string Admin = "ADMIN";
-        public static readonly string Delivery = "DELIVERY";
+        public const string Admin = "ADMIN";
+        public const string Delivery = "DELIVERY";
 
     }
 }

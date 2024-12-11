@@ -23,8 +23,7 @@ namespace MotoRental.API.Controllers
 
         // api/rental
         [HttpPost]
-        [AllowAnonymous]
-        // [Authorize(Roles = "ADMIN")]
+        [Authorize]
         public async Task<IActionResult> CreateRental([FromBody] CreateRentalCommand command)
         { 
             try
@@ -52,7 +51,7 @@ namespace MotoRental.API.Controllers
 
         // api/rental/1
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetRentalById(string id)
         {
             try
@@ -79,7 +78,7 @@ namespace MotoRental.API.Controllers
 
         // api/rental/1/return
         [HttpPut("{id}/return")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult> RentalReturn(string id, [FromBody] UpdateRentalCommand command)
         {
             try

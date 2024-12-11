@@ -21,6 +21,7 @@ namespace MotoRental.API.Controllers
 
         // api/users/1
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetUserById(string id)
         {
             var getUserQuery = new GetUserQuery(id);

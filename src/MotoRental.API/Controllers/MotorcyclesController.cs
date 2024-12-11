@@ -9,6 +9,7 @@ using MotoRental.Application.Queries.GetMotorcycleByPlate;
 using MotoRental.Core.Exceptions;
 using MotoRental.Application.Commands.UpdateMotorcycle;
 using MotoRental.Application.Commands.DeleteMotorcycle;
+using MotoRental.Core.Entities;
 
 namespace MotoRental.API.Controllers
 {
@@ -24,7 +25,7 @@ namespace MotoRental.API.Controllers
 
         // api/motorcycles/1
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> GetMotorcycleById(string id)
         {
             try
@@ -51,7 +52,7 @@ namespace MotoRental.API.Controllers
 
         // api/motorcycles/plate=123
         [HttpGet("plate")]
-        [AllowAnonymous]
+        [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> GetMotorcycleByPlate([FromQuery] string plate)
         {
             try
@@ -74,8 +75,7 @@ namespace MotoRental.API.Controllers
 
         // api/motorcycles
         [HttpPost]
-        [AllowAnonymous]
-        // [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> CreateMotorcycle([FromBody] CreateMotorcycleCommand command)
         { 
             try
@@ -96,7 +96,7 @@ namespace MotoRental.API.Controllers
 
         // api/motorcycles/1/plate
         [HttpPut("{id}/plate")]
-        [AllowAnonymous]
+        [Authorize(Roles = RoleTypes.Admin)]
         public async Task<ActionResult> ChangePlate(string id, [FromBody] UpdateMotorcycleCommand command)
         {
             try
@@ -122,7 +122,7 @@ namespace MotoRental.API.Controllers
 
         // api/motorcycles/1
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> DeleteMotorcycle(string id)
         {
             try

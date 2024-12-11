@@ -21,8 +21,7 @@ namespace MotoRental.API.Controllers
 
         // api/deliveryPerson
         [HttpPost]
-        [AllowAnonymous]
-        // [Authorize(Roles = "ADMIN")]
+        [Authorize]
         public async Task<IActionResult> CreateDeliveryPerson([FromBody] CreateDeliveryPersonCommand command)
         { 
             try
@@ -42,8 +41,7 @@ namespace MotoRental.API.Controllers
         }
         // api/deliveryPerson/1/cnh
         [HttpPost("{id}/cnh")]
-        [AllowAnonymous]
-        // [Authorize(Roles = "ADMIN")]
+        [Authorize]
         public async Task<IActionResult> UploadCnhImage(string id, [FromBody] UploadCnhImageCommand command)
         { 
             try
