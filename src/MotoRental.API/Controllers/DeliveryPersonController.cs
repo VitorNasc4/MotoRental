@@ -6,6 +6,7 @@ using System;
 using MotoRental.Application.Commands.CreateDeliveryPerson;
 using MotoRental.Core.Exceptions;
 using MotoRental.Application.Commands.UploadCnhImage;
+using MotoRental.Application.InputModels;
 
 namespace MotoRental.API.Controllers
 {
@@ -42,11 +43,12 @@ namespace MotoRental.API.Controllers
         // api/deliveryPerson/1/cnh
         [HttpPost("{id}/cnh")]
         [Authorize]
-        public async Task<IActionResult> UploadCnhImage(string id, [FromBody] UploadCnhImageCommand command)
+        public async Task<IActionResult> UploadCnhImage(string id, [FromBody] UploadCnhImageInputModel inputModel)
         { 
             try
             {
-                command.deliveryPersonId = id;
+                var command = new UploadCnhImageCommand(id, inputModel.imagem_cnh);
+
                 await _mediator.Send(command);
 
                 return Created();

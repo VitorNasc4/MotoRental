@@ -35,6 +35,7 @@ namespace MotoRental.API.Controllers
             catch (Exception ex) when (ex is InvalidRentalException ||
                                        ex is RentalBadRequestException ||
                                        ex is MotorcycleNotFoundException ||
+                                       ex is DeliveryPersonNotFoundException ||
                                        ex is RentalNotFoundException)
             {
                 return BadRequest(ex.Message);
@@ -87,6 +88,10 @@ namespace MotoRental.API.Controllers
                 await _mediator.Send(command);
 
                 return NoContent();
+            }
+            catch (RentalBadRequestException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (RentalNotFoundException ex)
             {

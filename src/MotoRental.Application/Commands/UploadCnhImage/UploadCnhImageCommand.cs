@@ -9,7 +9,12 @@ namespace MotoRental.Application.Commands.UploadCnhImage
 {
     public class UploadCnhImageCommand : IRequest<Unit>
     {
-        public string deliveryPersonId { get; set; }
-        public string imagem_cnh { get; set; }
+        public string DeliveryPersonId { get; set; }
+        public string ImagemCnh { get; set; }
+        public UploadCnhImageCommand(string deliveryPersonId, string imageCnh)
+        {
+            DeliveryPersonId = deliveryPersonId;
+            ImagemCnh = imageCnh;
+        }
     }
 }

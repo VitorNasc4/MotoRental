@@ -10,6 +10,7 @@ using MotoRental.Core.Exceptions;
 using MotoRental.Application.Commands.UpdateMotorcycle;
 using MotoRental.Application.Commands.DeleteMotorcycle;
 using MotoRental.Core.Entities;
+using MotoRental.Application.InputModels;
 
 namespace MotoRental.API.Controllers
 {
@@ -97,11 +98,12 @@ namespace MotoRental.API.Controllers
         // api/motorcycles/1/plate
         [HttpPut("{id}/plate")]
         [Authorize(Roles = RoleTypes.Admin)]
-        public async Task<ActionResult> ChangePlate(string id, [FromBody] UpdateMotorcycleCommand command)
+        public async Task<ActionResult> ChangePlate(string id, [FromBody] UpdateMotorcycleInputModel inputModel)
         {
             try
             {
-                command.MotorcycleId = id;
+                var command = new UpdateMotorcycleCommand(id, inputModel.placa);
+                
                 await _mediator.Send(command);
 
                 return NoContent();
