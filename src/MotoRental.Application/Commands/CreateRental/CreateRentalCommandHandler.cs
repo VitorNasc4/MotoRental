@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MotoRental.Core.Repositories;
 using MediatR;
 using MotoRental.Core.Exceptions;
+using MotoRental.Core.Entities;
 
 namespace MotoRental.Application.Commands.CreateRental
 {
@@ -31,6 +32,11 @@ namespace MotoRental.Application.Commands.CreateRental
             if (deliveryPerson is null)
             {
                 throw new DeliveryPersonNotFoundException(request.entregador_id);
+            }
+
+            if (deliveryPerson.CNH_Type != CNH_Types.Type_A && deliveryPerson.CNH_Type != CNH_Types.Type_AB)
+            {
+                throw new DeliveryPersonCnhTypeException(request.entregador_id);
             }
 
             var rental = CreateRentalCommand.ToEntity(request);

@@ -33,21 +33,16 @@ namespace MotoRental.API.Controllers
 
                 return Created();
             }
-            catch (InvalidRentalException ex)
+            catch (Exception ex) when (ex is InvalidRentalException ||
+                                       ex is RentalBadRequestException ||
+                                       ex is MotorcycleNotFoundException ||
+                                       ex is RentalNotFoundException)
             {
                 return BadRequest(ex.Message);
             }
-            catch (RentalBadRequestException ex)
+            catch (DeliveryPersonCnhTypeException ex)
             {
-                return BadRequest(ex.Message);
-            }
-            catch (MotorcycleNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (RentalNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
+                return Forbid(ex.Message);
             }
             catch (Exception ex)
             {
