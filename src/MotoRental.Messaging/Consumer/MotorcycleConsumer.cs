@@ -12,22 +12,23 @@ namespace MotoRental.Messaging.Consumer
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
-        private const string QUEUE = "motorcycle-events";
+        private readonly IConfiguration _configuration;
 
-        public MotorcycleConsumer(IServiceProvider serviceProvider)
+        public MotorcycleConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             _serviceProvider = serviceProvider;
+            _configuration = configuration;
 
             var factory = new ConnectionFactory
             {
-                HostName = "localhost",
+                HostName = _configuration["RabbitmqConfig:Host"],
             };
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                queue: QUEUE,
+                queue: _configuration["AzureBlobService:ContainerName"],
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
@@ -75,7 +76,7 @@ namespace MotoRental.Messaging.Consumer
 
             };
 
-            _channel.BasicConsume(QUEUE, false, consumer);
+            _channel.BasicConsume(_configuration["AzureBlobService:ContainerName"], false, consumer);
 
             return Task.CompletedTask;
         }

@@ -11,12 +11,16 @@ namespace MotoRental.Infrastructure.MessageBus
     public class MessageBusService : IMessageBusService
     {
         private readonly ConnectionFactory _factory;
-        public MessageBusService()
+        private readonly IConfiguration _configuration; 
+        public MessageBusService(IConfiguration configuration)
         {
+            _configuration = configuration;
+
             _factory = new ConnectionFactory
             {
-                HostName = "localhost"
+                HostName = _configuration["RabbitmqConfig:Host"]
             };
+
         }
         public void Publish(string queue, byte[] message)
         {

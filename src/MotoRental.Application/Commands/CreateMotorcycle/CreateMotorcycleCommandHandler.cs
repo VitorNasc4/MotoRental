@@ -6,6 +6,7 @@ using MediatR;
 using MotoRental.Core.Exceptions;
 using System.Text.Json;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace MotoRental.Application.Commands.CreateMotorcycle
 {
@@ -13,12 +14,13 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
     {
         private readonly IMotorcycleRepository _motorcycleRepository;
         private readonly IMessageBusService _messageBusService;
-        private const string QUEUE_NAME = "motorcycle-events";
+        private readonly IConfiguration _configuration;
 
-        public CreateMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository, IMessageBusService messageBusService)
+        public CreateMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository, IMessageBusService messageBusService, IConfiguration configuration)
         {
             _motorcycleRepository = motorcycleRepository;
             _messageBusService = messageBusService;
+            _configuration = configuration;
         }
         public async Task<Unit> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
@@ -34,7 +36,9 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
             var motorcycleInfoJson = JsonSerializer.Serialize(motorcycleDTO);
             var motorcycleInfoBytes = Encoding.UTF8.GetBytes(motorcycleInfoJson);
 
-            _messageBusService.Publish(QUEUE_NAME, motorcycleInfoBytes);
+            var queueName = _configuration["RabbitmqConfig:QueueName"];
+
+            _messageBusService.Publish(queueName, motorcycleInfoBytes);
 
             return Unit.Value;
         }
