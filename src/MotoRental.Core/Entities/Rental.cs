@@ -57,7 +57,7 @@ namespace MotoRental.Core.Entities
 
         private DateTime ValidateExpectedEndDate(DateTime expectedReturnDate)
         {
-            if (expectedReturnDate.Date < StartDate.Date)
+            if (expectedReturnDate.Date <= StartDate.Date)
             {
                 throw new RentalBadRequestException("A data estimada final precisa ser maior que a data de início");
             }
@@ -135,7 +135,7 @@ namespace MotoRental.Core.Entities
 
         public void SetReturnDate(DateTime actualReturnDate)
         {
-            if (actualReturnDate.Date < StartDate.Date)
+            if (actualReturnDate.Date <= StartDate.Date)
             {
                 throw new RentalBadRequestException("A data de retorno precisa ser maior que a data de início");
             }
