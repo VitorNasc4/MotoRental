@@ -7,6 +7,7 @@ using MotoRental.Core.Exceptions;
 using System.Text.Json;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace MotoRental.Application.Commands.CreateMotorcycle
 {
@@ -15,19 +16,28 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
         private readonly IMotorcycleRepository _motorcycleRepository;
         private readonly IMessageBusService _messageBusService;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<CreateMotorcycleCommandHandler> _logger;
 
-        public CreateMotorcycleCommandHandler(IMotorcycleRepository motorcycleRepository, IMessageBusService messageBusService, IConfiguration configuration)
+        public CreateMotorcycleCommandHandler(
+            IMotorcycleRepository motorcycleRepository, 
+            IMessageBusService messageBusService, 
+            IConfiguration configuration,
+            ILogger<CreateMotorcycleCommandHandler> logger)
         {
             _motorcycleRepository = motorcycleRepository;
             _messageBusService = messageBusService;
             _configuration = configuration;
+            _logger = logger;
         }
         public async Task<Unit> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogTrace($"Iniciando processo de registro de nova moto. Dados: {request}");
+
             var motorcyclePlateAlreadyExist = await _motorcycleRepository.MotorcyclePlateAlreadyExistsAsync(request.placa);
             
             if (motorcyclePlateAlreadyExist)
             {
+                _logger.LogError($"Interrompendo processo de registro de nova moto. Motivo: Placa da moto duplicada. Placa: {request.placa}");
                 throw new MotorcycleAlreadyExistsException(request.placa);
             }
 
@@ -38,7 +48,11 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
 
             var queueName = _configuration["RabbitmqConfig:QueueName"];
 
+            _logger.LogTrace($"Publicando evento de registro de nova moto");
+
             _messageBusService.Publish(queueName, motorcycleInfoBytes);
+
+            _logger.LogTrace($"Evento de registro de nova moto publicado com sucesso");
 
             return Unit.Value;
         }

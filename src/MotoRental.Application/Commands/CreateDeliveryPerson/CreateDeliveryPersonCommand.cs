@@ -22,5 +22,10 @@ namespace MotoRental.Application.Commands.CreateDeliveryPerson
             return new DeliveryPerson(command.nome, command.cnpj, command.data_nascimento, command.numero_cnh, command.tipo_cnh.ToUpper(), command.imagem_cnh = null);
         }
 
+        public override string ToString()
+        {
+            return $"Nome: {nome}, CNPJ: {cnpj}, Data de Nascimento: {data_nascimento:dd/MM/yyyy}, Numero CNH: {numero_cnh}, Tipo CNH: {tipo_cnh}";
+        }
+
     }
 }

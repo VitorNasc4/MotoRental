@@ -27,6 +27,9 @@ namespace MotoRental.Application.Commands.CreateRental
 
             return new Rental(command.moto_id, command.entregador_id, command.plano, command.data_inicio, command.data_termino, command.data_previsao_termino);
         }
-
+        public override string ToString()
+        {
+            return $"Entregador ID: {entregador_id}, Moto ID: {moto_id}, Data Início: {data_inicio:yyyy-MM-dd}, Data Término: {data_termino:yyyy-MM-dd}, Data Previsão Término: {data_previsao_termino:yyyy-MM-dd}, Plano: {plano}";
+        }
     }
 }

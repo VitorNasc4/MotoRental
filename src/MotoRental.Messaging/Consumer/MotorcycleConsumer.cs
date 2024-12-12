@@ -14,11 +14,13 @@ namespace MotoRental.Messaging.Consumer
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
         private readonly ConnectionFactory _factory;
+        private readonly ILogger<MotorcycleConsumer> _logger;
 
-        public MotorcycleConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
+        public MotorcycleConsumer(IServiceProvider serviceProvider, IConfiguration configuration, ILogger<MotorcycleConsumer> logger)
         {
             _serviceProvider = serviceProvider;
             _configuration = configuration;
+            _logger = logger;
 
             var RABBITMQ_HOST = Environment.GetEnvironmentVariable("RABBITMQ_HOST");
 
@@ -63,7 +65,7 @@ namespace MotoRental.Messaging.Consumer
 
                 if (motorcycleInfoDTO is not null)
                 {
-                  Console.WriteLine($"Mensagem recebida: {motorcycleInfoDTO}");
+                  _logger.LogError($"IMensagem recebida: {motorcycleInfoDTO}");
                   var motorcycle = MotorcycleInfoDTO.ToEntity(motorcycleInfoDTO);
 
                   using (var scope = _serviceProvider.CreateScope())
@@ -73,10 +75,11 @@ namespace MotoRental.Messaging.Consumer
                       {
                           await dbContext.Motorcycles.AddAsync(motorcycle);
                           await dbContext.SaveChangesAsync();
-                          Console.WriteLine("Moto salva com sucesso!");
+
+                          _logger.LogTrace($"Registro criado com sucesso. Id: {motorcycle.Id}");
 
                           if (motorcycle.Year == "2024")
-                            Console.WriteLine("Moto do ano 2024 registrada!");
+                            _logger.LogTrace($"A moto registrada é do ano 2024");
 
                       }
                       catch (Exception e)

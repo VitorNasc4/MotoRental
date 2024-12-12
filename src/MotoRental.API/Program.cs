@@ -21,8 +21,13 @@ using MotoRental.Application.Commands.CreateUser;
 using MotoRental.Infrastructure.MessageBus;
 using MotoRental.Core.Entities;
 using MotoRental.Infrastructure.ImageUploadService;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders(); 
+builder.Logging.AddConsole(); 
+builder.Logging.AddDebug();
 
 var DB_HOST = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
 

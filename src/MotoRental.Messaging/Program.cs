@@ -4,6 +4,10 @@ using MotoRental.Messaging.Consumer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders(); 
+builder.Logging.AddConsole(); 
+builder.Logging.AddDebug();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

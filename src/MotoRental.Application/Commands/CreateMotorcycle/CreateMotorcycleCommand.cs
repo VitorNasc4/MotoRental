@@ -23,6 +23,9 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
         {
             return new MotorcycleInfoDTO(command.identificador, command.ano, command.modelo, command.placa);
         }
-
+        public override string ToString()
+        {
+            return $"Identificador: {identificador}, Ano: {ano}, Modelo: {modelo}, Placa: {placa}";
+        }
     }
 }
