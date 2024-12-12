@@ -7,6 +7,7 @@ using MotoRental.Application.ViewModels;
 using MotoRental.Core.Repositories;
 using MotoRental.Core.Services;
 using MediatR;
+using MotoRental.Core.Exceptions;
 
 namespace MotoRental.Application.Commands.LoginUser
 {
@@ -27,7 +28,7 @@ namespace MotoRental.Application.Commands.LoginUser
 
             if (user is null)
             {
-                return null;
+                throw new UserNotFoundException();
             }
 
             var token = _authService.GenerateJWTToken(user.Email, user.Role);

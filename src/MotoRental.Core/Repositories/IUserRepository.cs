@@ -10,6 +10,8 @@ namespace MotoRental.Core.Repositories
     {
         Task<User> GetUserByIdAsync(string id);
         Task<User> GetUserByEmailAndPasswordAsyn(string email, string passwordHash);
+        Task<bool> CheckEmailExist(string email);
         Task AddAsync(User user);
+        Task SaveChangesAsync();
     }
 }

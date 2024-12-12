@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using MotoRental.Application.InputModels;
+using MotoRental.Application.Commands.UpdateUserToAdmin;
+using MotoRental.Core.Entities;
+using System;
+using MotoRental.Core.Exceptions;
 
 namespace MotoRental.API.Controllers
 {
@@ -24,34 +29,64 @@ namespace MotoRental.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserById(string id)
         {
-            var getUserQuery = new GetUserQuery(id);
-            var user = await _mediator.Send(getUserQuery);
-
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
+                var getUserQuery = new GetUserQuery(id);
+                var user = await _mediator.Send(getUserQuery);
 
-            return Ok(user);
+                return Ok(user);
+            }
+            catch (UserIdNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
         }
 
         // api/users
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateUser([FromBody] CreateUserCommand command)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
-            var id = _mediator.Send(command);
-
-            return CreatedAtAction(nameof(GetUserById), new { id = id }, command);
+            try
+            {
+                var id = await _mediator.Send(command);
+                return CreatedAtAction(nameof(GetUserById), new { id = id }, command);
+            }
+            catch (EmailAlreadyExistsException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
         }
-        // api/users/admin
-        [HttpPost("admin")]
-        [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> CreateUserAdmin([FromBody] CreateUserAdminCommand command)
-        {
-            var id = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetUserById), new { id = id }, command);
+        // api/users/1/admin
+        [HttpPut("{id}/admin")]
+        [Authorize(Roles = RoleTypes.Admin)]
+        public async Task<IActionResult> UpdateUserToAdmin(string id, [FromBody] UpdateUserInputModel inputModel)
+        {
+            try
+            {
+                var command = new UpdateUserToAdminCommand(id, inputModel.isAdmin);
+
+                await _mediator.Send(command);
+
+                return NoContent();
+            }
+            catch (UserIdNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
         }
 
         // api/users/1/login
@@ -59,14 +94,20 @@ namespace MotoRental.API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login([FromBody] LoginUserCommand command)
         {
-            var loginUserViewModel = await _mediator.Send(command);
-
-            if (loginUserViewModel is null)
+            try
             {
-                return BadRequest();
-            }
+                var loginUserViewModel = await _mediator.Send(command);
 
-            return Ok(loginUserViewModel);
+                return Ok(loginUserViewModel);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            }
         }
     }
 }

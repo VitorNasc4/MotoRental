@@ -19,6 +19,16 @@ namespace MotoRental.Core.Entities
         public string Password { get; private set; }
         public string Role { get; private set; }
 
+        public void SetAdmin(bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                Role = RoleTypes.Admin;
+                return;
+            }
+
+            Role = RoleTypes.Delivery;
+        }
 
         public static bool IsValidRoleType(string role)
         {

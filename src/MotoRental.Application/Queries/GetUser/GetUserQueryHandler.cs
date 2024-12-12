@@ -8,6 +8,7 @@ using MotoRental.Core.Repositories;
 using MotoRental.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MotoRental.Core.Exceptions;
 
 namespace MotoRental.Application.Queries.GetUser
 {
@@ -23,9 +24,9 @@ namespace MotoRental.Application.Queries.GetUser
         {
             var user = await _userRepository.GetUserByIdAsync(request.Id);
 
-            if (user == null)
+            if (user is null)
             {
-                return null;
+                throw new UserIdNotFoundException(request.Id);
             }
 
             return new UserViewModel(user.FullName, user.Email);

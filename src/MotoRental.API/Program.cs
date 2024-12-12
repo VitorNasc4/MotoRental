@@ -48,7 +48,7 @@ builder.Services.AddControllers(options => options.Filters.Add(typeof(Validation
 // Fluent Validator
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateUserAdminCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
 
 // Autenticação JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -28,6 +28,11 @@ namespace MotoRental.Infrastructure.Persistence.Repositories
             return _dbContext.Users
                 .SingleOrDefaultAsync(u => u.Email == email && u.Password == passwordHash);
         }
+        public Task<bool> CheckEmailExist(string email)
+        {
+            return _dbContext.Users
+                .AnyAsync(u => u.Email == email);
+        }
 
         public async Task<User> GetUserByIdAsync(string id)
         {

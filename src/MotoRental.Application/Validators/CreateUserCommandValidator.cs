@@ -9,9 +9,9 @@ using MotoRental.Core.Entities;
 
 namespace MotoRental.Application.Validators
 {
-    public class CreateUserAdminCommandValidator : AbstractValidator<CreateUserAdminCommand>
+    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {
-        public CreateUserAdminCommandValidator()
+        public CreateUserCommandValidator()
         {
             RuleFor(u => u.Email)
                 .EmailAddress()
@@ -25,10 +25,6 @@ namespace MotoRental.Application.Validators
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Name is required");
-
-            RuleFor(u => u.Role)
-                .Must(User.IsValidRoleType)
-                .WithMessage("Allowed roles are 'admin' and 'delivery'");
         }
 
         public static bool ValidPassword(string password)
