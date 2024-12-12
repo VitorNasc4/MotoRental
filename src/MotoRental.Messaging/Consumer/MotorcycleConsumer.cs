@@ -13,18 +13,34 @@ namespace MotoRental.Messaging.Consumer
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
         private readonly IConfiguration _configuration;
+        private readonly ConnectionFactory _factory;
 
         public MotorcycleConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
         {
             _serviceProvider = serviceProvider;
             _configuration = configuration;
 
-            var factory = new ConnectionFactory
-            {
-                HostName = _configuration["RabbitmqConfig:Host"],
-            };
+            var RABBITMQ_HOST = Environment.GetEnvironmentVariable("RABBITMQ_HOST");
 
-            _connection = factory.CreateConnection();
+            if (RABBITMQ_HOST is null)
+            {
+                _factory = new ConnectionFactory
+                {
+                    HostName = "localhost"
+                };
+            }
+            else
+            {
+                _factory = new ConnectionFactory 
+                {
+                    HostName = RABBITMQ_HOST, 
+                    UserName = "guest",
+                    Password = "guest",
+                    Port = 5672
+                };
+            }
+
+            _connection = _factory.CreateConnection();
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(

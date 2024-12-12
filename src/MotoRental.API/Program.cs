@@ -24,8 +24,11 @@ using MotoRental.Infrastructure.ImageUploadService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var DB_HOST = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
+
 // Para usar o Postgres
-var connectionString = builder.Configuration.GetConnectionString("MotoRentalCsPostgres");
+var rawConnectionString = builder.Configuration.GetConnectionString("MotoRentalCsPostgres");
+var connectionString = rawConnectionString.Replace("DB_HOST", DB_HOST);
 builder.Services.AddDbContext<MotoRentalDbContext>
     (option => option.UseNpgsql(connectionString));
 

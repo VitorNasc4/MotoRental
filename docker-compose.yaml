@@ -44,10 +44,32 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      DB_HOST: db
+      RABBITMQ_HOST: rabbitmq
     ports:
       - "5000:5000"
+
+  consumer:
+    build:
+      context: .
+      dockerfile: ./src/MotoRental.Messaging/Dockerfile
+    image: consumer:dev
+    container_name: consumer
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DB_HOST: db
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "5202:5202"
 
 volumes:
   db:
