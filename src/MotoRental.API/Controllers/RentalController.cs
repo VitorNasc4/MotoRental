@@ -8,6 +8,7 @@ using MotoRental.Core.Exceptions;
 using MotoRental.Application.Commands.CreateRental;
 using MotoRental.Application.Queries.GetRentalById;
 using MotoRental.Application.Commands.UpdateRental;
+using MotoRental.Application.InputModels;
 
 namespace MotoRental.API.Controllers
 {
@@ -58,11 +59,6 @@ namespace MotoRental.API.Controllers
                 var getRentalByIdQuery = new GetRentalByIdQuery(id);
                 var rental = await _mediator.Send(getRentalByIdQuery);
 
-                if (rental == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(rental);
             }
             catch (RentalNotFoundException ex)
@@ -75,13 +71,13 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        [HttpPut("{id}/return")]
+        [HttpPut("{id}/devolucao")]
         [Authorize]
-        public async Task<ActionResult> RentalReturn(string id, [FromBody] UpdateRentalCommand command)
+        public async Task<ActionResult> RentalReturn(string id, [FromBody] UpdateRentalInputModel inputModel)
         {
             try
             {
-                command.RentalId = id;
+                var command = new UpdateRentalCommand(id, inputModel.data_devolucao);
                 await _mediator.Send(command);
 
                 return NoContent();
