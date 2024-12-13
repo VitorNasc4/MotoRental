@@ -15,6 +15,34 @@ namespace MotoRental.Messaging.Consumer
         private readonly IConfiguration _configuration;
         private readonly ConnectionFactory _factory;
         private readonly ILogger<MotorcycleConsumer> _logger;
+        private IConnection CreateRabbitMqConnectionWithRetry(ConnectionFactory factory)
+        {
+            int maxRetries = 10;
+            int retryDelay = 5000; 
+
+            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            {
+                try
+                {
+                    Console.WriteLine($"Tentativa {attempt} de conexão com RabbitMQ...");
+                    return factory.CreateConnection();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Falha ao conectar ao RabbitMQ: {ex.Message}");
+
+                    if (attempt == maxRetries)
+                    {
+                        Console.WriteLine("Número máximo de tentativas atingido. Abortando...");
+                        throw; 
+                    }
+
+                    Thread.Sleep(retryDelay);
+                }
+            }
+
+            throw new Exception("Não foi possível conectar ao RabbitMQ após várias tentativas.");
+        }
 
         public MotorcycleConsumer(IServiceProvider serviceProvider, IConfiguration configuration, ILogger<MotorcycleConsumer> logger)
         {
@@ -42,7 +70,7 @@ namespace MotoRental.Messaging.Consumer
                 };
             }
 
-            _connection = _factory.CreateConnection();
+            _connection = CreateRabbitMqConnectionWithRetry(_factory);
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
