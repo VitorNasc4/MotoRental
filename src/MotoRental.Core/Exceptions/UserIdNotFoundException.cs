@@ -8,7 +8,7 @@ namespace MotoRental.Core.Exceptions
     public class UserIdNotFoundException : Exception
     {
         public UserIdNotFoundException(string id)
-            : base($"User with id '{id}' not found.")
+            : base($"Usuário com id '{id}' não foi encontrado")
         {
         }
     }

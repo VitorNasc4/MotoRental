@@ -16,22 +16,22 @@ namespace MotoRental.Application.Validators
             RuleFor(u => u.identificador)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("identificador é obrigatório");
+                .WithMessage("Identificador é obrigatório");
 
             RuleFor(u => u.ano)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("ano é obrigatório");
+                .WithMessage("Ano é obrigatório");
  
             RuleFor(u => u.modelo)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("modelo é obrigatório");
+                .WithMessage("Modelo é obrigatório");
 
             RuleFor(u => u.placa)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("placa é obrigatório");
+                .WithMessage("Placa é obrigatório");
         }
     }
 }

@@ -17,27 +17,28 @@ namespace MotoRental.Application.Validators
             RuleFor(dp => dp.nome)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Name is required");
+                .WithMessage("Nome é obrigatório");
 
 
             RuleFor(dp => dp.cnpj)
                 .Must(ValidCNPJ)
-                .WithMessage("Invalid CNPJ");
+                .WithMessage("CNPJ inválido");
 
             RuleFor(dp => dp.data_nascimento)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Birthday is required");
+                .WithMessage("Data de nascimento é obrigatório")
+                .Must(BeAtLeast18YearsOld)
+                .WithMessage("É obrigatório ter pelo menos 18 anos");
             
             RuleFor(dp => dp.numero_cnh)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("CNH number is required");
+                .WithMessage("Número de CNH é obrigatório");
             
             RuleFor(dp => dp.tipo_cnh)
                 .Must(DeliveryPerson.IsValidCNH_Type)
-                .WithMessage("Invalid CNH type");
-
+                .WithMessage($"Tipo de CNH inválido. Os tipos permitidos são: {CNH_Types.Type_A}, {CNH_Types.Type_B}, e {CNH_Types.Type_AB}");
         }
 
         public static bool ValidCNPJ(string cnpj)
@@ -45,33 +46,41 @@ namespace MotoRental.Application.Validators
             if (string.IsNullOrEmpty(cnpj) || cnpj.Length != 14)
                 return false;
 
-            // if (new string(cnpj[0], cnpj.Length) == cnpj)
-            //     return false;
+            if (new string(cnpj[0], cnpj.Length) == cnpj)
+                return false;
 
-            // int[] multiplicador1 = { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            // int[] multiplicador2 = { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplicador1 = { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplicador2 = { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-            // string tempCnpj = cnpj.Substring(0, 12);
-            // int soma = 0;
+            string tempCnpj = cnpj.Substring(0, 12);
+            int soma = 0;
 
-            // for (int i = 0; i < 12; i++)
-            //     soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+            for (int i = 0; i < 12; i++)
+                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
 
-            // int resto = soma % 11;
-            // int digito1 = resto < 2 ? 0 : 11 - resto;
+            int resto = soma % 11;
+            int digito1 = resto < 2 ? 0 : 11 - resto;
 
-            // tempCnpj += digito1;
-            // soma = 0;
+            tempCnpj += digito1;
+            soma = 0;
 
-            // for (int i = 0; i < 13; i++)
-            //     soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+            for (int i = 0; i < 13; i++)
+                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
 
-            // resto = soma % 11;
-            // int digito2 = resto < 2 ? 0 : 11 - resto;
+            resto = soma % 11;
+            int digito2 = resto < 2 ? 0 : 11 - resto;
 
-            // return cnpj.EndsWith(digito1.ToString() + digito2.ToString());
+            return cnpj.EndsWith(digito1.ToString() + digito2.ToString());
+        }
 
-            return true;
+        public static bool BeAtLeast18YearsOld(DateTime dateOfBirth)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - dateOfBirth.Year;
+
+            if (dateOfBirth.Date > today.AddYears(-age)) age--;
+
+            return age >= 18;
         }
 
     }

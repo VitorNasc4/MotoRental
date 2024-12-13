@@ -15,16 +15,16 @@ namespace MotoRental.Application.Validators
         {
             RuleFor(u => u.Email)
                 .EmailAddress()
-                .WithMessage("Invalid e-mail");
+                .WithMessage("Email inválido");
 
             RuleFor(u => u.Password)
                 .Must(ValidPassword)
-                .WithMessage("Password must be at least 8 characters long");
+                .WithMessage("A senha precisa ter pelo menos 8 caracteres");
 
             RuleFor(u => u.FullName)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Name is required");
+                .WithMessage("Nome é obrigatório");
         }
 
         public static bool ValidPassword(string password)

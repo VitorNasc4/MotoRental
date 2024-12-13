@@ -17,26 +17,26 @@ namespace MotoRental.Application.Validators
             RuleFor(u => u.entregador_id)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Delivery Person Id is required");
+                .WithMessage("Id do entregador é obrigatório");
  
             RuleFor(u => u.moto_id)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Motorcycle Id is required");
+                .WithMessage("Id da moto é obrigatório");
 
             RuleFor(u => u.data_inicio)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Initial date is required");
+                .WithMessage("Data de início é obrigatório");
 
             RuleFor(u => u.data_previsao_termino)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Expected final date is required");
+                .WithMessage("Previsão de término é obrigatório");
 
             RuleFor(u => u.plano)
                 .Must(Rental.IsValidPlan)
-                .WithMessage("Invalid plan");
+                .WithMessage($"Plano inválido, os planos disponíveis são: {PlanTypes.SevenDays}, {PlanTypes.FifteenDays}, {PlanTypes.ThirtyDays}, {PlanTypes.FortyFiveDays} e {PlanTypes.FiftyDays} diárias");
         }
     }
 }

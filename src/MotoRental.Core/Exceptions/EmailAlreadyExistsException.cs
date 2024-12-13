@@ -8,7 +8,7 @@ namespace MotoRental.Core.Exceptions
     public class EmailAlreadyExistsException : Exception
     {
         public EmailAlreadyExistsException(string email)
-            : base($"Email '{email}' already exists.")
+            : base($"Email '{email}' já cadastrado")
         {
         }
     }

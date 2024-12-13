@@ -8,7 +8,7 @@ namespace MotoRental.Core.Exceptions
     public class MotorcycleAlreadyExistsException : Exception
     {
         public MotorcycleAlreadyExistsException(string plate)
-            : base($"A motorcycle with the plate '{plate}' already exists.")
+            : base($"Placa '{plate}' já cadastrada")
         {
         }
     }

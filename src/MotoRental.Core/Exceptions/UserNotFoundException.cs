@@ -8,7 +8,7 @@ namespace MotoRental.Core.Exceptions
     public class UserNotFoundException : Exception
     {
         public UserNotFoundException()
-            : base($"Email or password is incorrect")
+            : base($"Email ou senha está incorreto")
         {
         }
     }

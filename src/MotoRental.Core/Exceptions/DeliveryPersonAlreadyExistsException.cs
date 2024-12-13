@@ -8,7 +8,7 @@ namespace MotoRental.Core.Exceptions
     public class DeliveryPersonAlreadyExistsException : Exception
     {
         public DeliveryPersonAlreadyExistsException(string cnh, string cnpj)
-            : base($"A delivery person with the cnh '{cnh}' or cnpj '{cnpj}' already exists.")
+            : base($"Já existe um registro com a CNH '{cnh}' ou o CNPJ '{cnpj}'")
         {
         }
     }

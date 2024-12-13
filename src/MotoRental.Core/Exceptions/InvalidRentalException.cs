@@ -8,7 +8,7 @@ namespace MotoRental.Core.Exceptions
     public class InvalidRentalException : Exception
     {
         public InvalidRentalException(int plan)
-            : base($"The plan '{plan}' is invalid.")
+            : base($"O plano '{plan}' é inválido")
         {
         }
     }
