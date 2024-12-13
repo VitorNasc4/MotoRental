@@ -141,7 +141,7 @@ namespace MotoRental.Test.Integration
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
         [Fact]
-        public async Task POST_CreateRental_OnFailure_WrongExpectedEndDate()
+        public async Task POST_CreateRental_OnFailure_ExpectedEndDateBeforeStartDate()
         {
             var dbContext = _fixture.DbContext;
             using var client = _factory.CreateClient();
@@ -158,6 +158,30 @@ namespace MotoRental.Test.Integration
                 data_inicio = DateTime.Today.AddDays(1),
                 data_termino = DateTime.Today.AddDays(PlanTypes.SevenDays + 1),
                 data_previsao_termino = DateTime.Today
+            };
+
+            var result = await client.PostAsJsonAsync($"locacao/", createRentalCommand);
+
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+        [Fact]
+        public async Task POST_CreateRental_OnFailure_ExpectedEndDateAfterEndDate()
+        {
+            var dbContext = _fixture.DbContext;
+            using var client = _factory.CreateClient();
+
+            dbContext.Motorcycles.Add(dummyMotorcycle);
+            dbContext.DeliveryPersons.Add(dummyDeliveryPerson);
+            await dbContext.SaveChangesAsync();
+
+            var createRentalCommand = new CreateRentalCommand
+            {
+                moto_id = dummyMotorcycle.Id,
+                entregador_id = dummyDeliveryPerson.Id,
+                plano = PlanTypes.SevenDays,
+                data_inicio = DateTime.Today.AddDays(1),
+                data_termino = DateTime.Today.AddDays(PlanTypes.SevenDays + 1),
+                data_previsao_termino = DateTime.Today.AddDays(PlanTypes.SevenDays + 2)
             };
 
             var result = await client.PostAsJsonAsync($"locacao/", createRentalCommand);

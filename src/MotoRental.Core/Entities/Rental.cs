@@ -19,9 +19,9 @@ namespace MotoRental.Core.Entities
             StartDate = ValidateStartDate(startDate);
             EndDate = ValidateEndDate(endDate);
             ExpectedReturnDate = ValidateExpectedEndDate(expectedReturnDate);
-            Penalty = CalculatePenalty();
-            TotalCost = CalculateTotalCost();
-            PlanDailyRate = CalculatePlanDailyRate();
+            Penalty = 0m;
+            TotalCost = CalculateInitialTotalCost();
+            PlanDailyRate = GetOriginalPlanDailyRate();
         }
 
         public string MotorcycleId { get; private set; }
@@ -61,6 +61,10 @@ namespace MotoRental.Core.Entities
             {
                 throw new RentalBadRequestException("A data estimada final precisa ser maior que a data de início");
             }
+            if (expectedReturnDate.Date > EndDate.Date)
+            {
+                throw new RentalBadRequestException("A data estimada final não pode ser maior que a data final");
+            }
 
             return expectedReturnDate.ToUniversalTime();
         }
@@ -79,10 +83,13 @@ namespace MotoRental.Core.Entities
         }
         private decimal CalculatePenalty()
         {
-            var finalDate = ActualReturnDate ?? ExpectedReturnDate;
+            if (ActualReturnDate is null)
+                return 0m;
+
+            var finalDate = ActualReturnDate.Value;
             var planDailyRate = GetOriginalPlanDailyRate();
 
-            if (finalDate < EndDate)
+            if (finalDate < ExpectedReturnDate)
             {
                 var unusedDays = (EndDate - finalDate).Days;
                 var unusedCost = unusedDays * planDailyRate;
@@ -95,7 +102,7 @@ namespace MotoRental.Core.Entities
                 };
             }
             
-            if (finalDate > EndDate)
+            if (finalDate > ExpectedReturnDate)
             {
                 var extraDays = (finalDate - EndDate).Days;
                 return extraDays * LateReturnFeePerDay;
@@ -104,18 +111,27 @@ namespace MotoRental.Core.Entities
             return 0m;
         }
 
-        private decimal CalculateTotalCost()
+        private decimal CalculateInitialTotalCost()
         {
-            var finalDate = ActualReturnDate ?? ExpectedReturnDate;
             var originalPlanDailyRate = GetOriginalPlanDailyRate();
 
-            if (finalDate < EndDate)
+            return PlanDays * originalPlanDailyRate;
+        }
+        private decimal CalculateFinalTotalCost()
+        {
+            if (ActualReturnDate is null)
+                return 0m;
+
+            var finalDate = ActualReturnDate.Value;
+            var originalPlanDailyRate = GetOriginalPlanDailyRate();
+
+            if (finalDate < ExpectedReturnDate)
             {
                 var usedDays = (finalDate - StartDate).Days;
                 return (usedDays * originalPlanDailyRate) + Penalty;
             }
             
-            if (finalDate > EndDate)
+            if (finalDate > ExpectedReturnDate)
             {
                 return (PlanDays * originalPlanDailyRate) + Penalty;
             }
@@ -123,15 +139,6 @@ namespace MotoRental.Core.Entities
             return PlanDays * originalPlanDailyRate;
         }
 
-        private decimal CalculatePlanDailyRate()
-        {
-            var finalDate = ActualReturnDate ?? ExpectedReturnDate;
-            
-            var usedDays = (finalDate - StartDate).Days;
-            
-            return TotalCost / usedDays;
-        
-        }
 
         public void SetReturnDate(DateTime actualReturnDate)
         {
@@ -142,8 +149,7 @@ namespace MotoRental.Core.Entities
 
             ActualReturnDate = actualReturnDate.ToUniversalTime();
             Penalty = CalculatePenalty();
-            TotalCost = CalculateTotalCost();
-            PlanDailyRate = CalculatePlanDailyRate();
+            TotalCost = CalculateFinalTotalCost();
         }
 
         public static bool IsValidPlan(int plan)
