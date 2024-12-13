@@ -29,7 +29,7 @@ namespace MotoRental.Application.Commands.UploadCnhImage
         }
         public async Task<Unit> Handle(UploadCnhImageCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de upload da imagem da CNH. Id do entregador: {request.DeliveryPersonId}");
+            _logger.LogInformation($"Iniciando processo de upload da imagem da CNH. Id do entregador: {request.DeliveryPersonId}");
             var deliveryPerson = await _deliveryPersonRepository.GetDeliveryPersonByIdAsync(request.DeliveryPersonId);
             
             if (deliveryPerson is null)
@@ -40,14 +40,14 @@ namespace MotoRental.Application.Commands.UploadCnhImage
 
             var containerName = _configuration["AzureBlobService:ContainerName"];
 
-            _logger.LogTrace($"Enviando imagem para serviço de imagem...");
+            _logger.LogInformation($"Enviando imagem para serviço de imagem...");
             var imageUrl = await _imageUploadService.UploadBase64Image(request.ImagemCnh, containerName);
 
             deliveryPerson.SetCNH_Image(imageUrl);
 
             await _deliveryPersonRepository.SaveChangesAsync();
 
-            _logger.LogTrace($"Finalizando processo de upload da imagem da CNH. Id do registro atualizado: {deliveryPerson.Id}");
+            _logger.LogInformation($"Finalizando processo de upload da imagem da CNH. Id do registro atualizado: {deliveryPerson.Id}");
 
             return Unit.Value;
         }

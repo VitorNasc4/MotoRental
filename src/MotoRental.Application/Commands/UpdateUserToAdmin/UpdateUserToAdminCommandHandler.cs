@@ -21,7 +21,7 @@ namespace MotoRental.Application.Commands.UpdateUserToAdmin
         }
         public async Task<Unit> Handle(UpdateUserToAdminCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de atualização de registro de usuário. Id do usuário: {request.UserId}, IsAdmin: {request.IsAdmin}");
+            _logger.LogInformation($"Iniciando processo de atualização de registro de usuário. Id do usuário: {request.UserId}, IsAdmin: {request.IsAdmin}");
 
             var user = await _userRepository.GetUserByIdAsync(request.UserId);
             
@@ -35,7 +35,7 @@ namespace MotoRental.Application.Commands.UpdateUserToAdmin
             
             await _userRepository.SaveChangesAsync();
 
-            _logger.LogTrace($"Finalizando processo de atualização de registro de usuário. Id do registro atualizado: {user.Id}");
+            _logger.LogInformation($"Finalizando processo de atualização de registro de usuário. Id do registro atualizado: {user.Id}");
 
             return Unit.Value;
         }

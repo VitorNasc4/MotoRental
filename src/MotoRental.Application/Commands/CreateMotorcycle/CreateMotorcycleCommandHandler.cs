@@ -31,7 +31,7 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
         }
         public async Task<Unit> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de registro de nova moto. Dados: {request}");
+            _logger.LogInformation($"Iniciando processo de registro de nova moto. Dados: {request}");
 
             var motorcyclePlateAlreadyExist = await _motorcycleRepository.MotorcyclePlateAlreadyExistsAsync(request.placa);
             
@@ -48,11 +48,11 @@ namespace MotoRental.Application.Commands.CreateMotorcycle
 
             var queueName = _configuration["RabbitmqConfig:QueueName"];
 
-            _logger.LogTrace($"Publicando evento de registro de nova moto");
+            _logger.LogInformation($"Publicando evento de registro de nova moto");
 
             _messageBusService.Publish(queueName, motorcycleInfoBytes);
 
-            _logger.LogTrace($"Evento de registro de nova moto publicado com sucesso");
+            _logger.LogInformation($"Evento de registro de nova moto publicado com sucesso");
 
             return Unit.Value;
         }

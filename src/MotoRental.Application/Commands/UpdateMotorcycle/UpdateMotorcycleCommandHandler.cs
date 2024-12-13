@@ -25,7 +25,7 @@ namespace MotoRental.Application.Commands.UpdateMotorcycle
         }
         public async Task<Unit> Handle(UpdateMotorcycleCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de atualização de placa. Id da moto: {request.MotorcycleId}, Placa: {request.NewPlate}");
+            _logger.LogInformation($"Iniciando processo de atualização de placa. Id da moto: {request.MotorcycleId}, Placa: {request.NewPlate}");
             
             var motorcycleById = await _motorcycleRepository.GetMotorcycleByIdAsync(request.MotorcycleId);
 
@@ -46,7 +46,7 @@ namespace MotoRental.Application.Commands.UpdateMotorcycle
             motorcycleById.ChangePlate(request.NewPlate);
             await _motorcycleRepository.SaveChangesAsync();
 
-            _logger.LogTrace($"Finalizando processo de atualização de placa. Id do registro atualizado: {motorcycleById.Id}");
+            _logger.LogInformation($"Finalizando processo de atualização de placa. Id do registro atualizado: {motorcycleById.Id}");
 
             return Unit.Value;
         }

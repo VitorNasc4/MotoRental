@@ -20,7 +20,7 @@ namespace MotoRental.Application.Queries.GetMotorcycleById
         }
         public async Task<MotorcylceViewModel> Handle(GetMotorcycleByIdQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de busca de moto pela Id: {request.Id}");
+            _logger.LogInformation($"Iniciando processo de busca de moto pela Id: {request.Id}");
             var motorcycle = await _motorcycleRepository.GetMotorcycleByIdAsync(request.Id);
 
             if (motorcycle == null)
@@ -29,7 +29,7 @@ namespace MotoRental.Application.Queries.GetMotorcycleById
                 throw new MotorcycleNotFoundException(request.Id);
             }
 
-            _logger.LogTrace($"Finalizando processo de busca de moto pela Id: {request.Id}. Registro encontrado com sucesso");
+            _logger.LogInformation($"Finalizando processo de busca de moto pela Id: {request.Id}. Registro encontrado com sucesso");
 
             return new MotorcylceViewModel(motorcycle.Id, motorcycle.Year, motorcycle.Model, motorcycle.Plate);
         }

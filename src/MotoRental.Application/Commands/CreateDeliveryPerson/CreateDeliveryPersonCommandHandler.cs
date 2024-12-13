@@ -20,7 +20,7 @@ namespace MotoRental.Application.Commands.CreateDeliveryPerson
         }
         public async Task<Unit> Handle(CreateDeliveryPersonCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de registro de novo entregador. Dados: {request}");
+            _logger.LogInformation($"Iniciando processo de registro de novo entregador. Dados: {request}");
 
             var deliveryPersonAlreadyExist = await _deliveryPersonRepository.DeliveryPersonAlreadyExistsAsync(request.numero_cnh, request.cnpj);
             
@@ -34,7 +34,7 @@ namespace MotoRental.Application.Commands.CreateDeliveryPerson
 
             await _deliveryPersonRepository.AddAsync(deliveryPerson);
 
-            _logger.LogTrace($"Finalizando processo de registro de novo entregador com sucesso. Id de registro: {deliveryPerson.Id}");
+            _logger.LogInformation($"Finalizando processo de registro de novo entregador com sucesso. Id de registro: {deliveryPerson.Id}");
 
             return Unit.Value;
         }

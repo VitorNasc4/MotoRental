@@ -20,7 +20,7 @@ namespace MotoRental.Application.Queries.GetRentalById
         }
         public async Task<RentalViewModel> Handle(GetRentalByIdQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de busca de aluguel pelo Id: {request.Id}");
+            _logger.LogInformation($"Iniciando processo de busca de aluguel pelo Id: {request.Id}");
             var rental = await _rentalRepository.GetRentalByIdAsync(request.Id);
 
             if (rental == null)
@@ -29,7 +29,7 @@ namespace MotoRental.Application.Queries.GetRentalById
                 throw new RentalNotFoundException(request.Id);
             }
 
-            _logger.LogTrace($"Finalizando processo de busca de aluguel pelo Id: {request.Id}. Registro encontrado com sucesso");
+            _logger.LogInformation($"Finalizando processo de busca de aluguel pelo Id: {request.Id}. Registro encontrado com sucesso");
 
             return new RentalViewModel(
                 rental.Id, 

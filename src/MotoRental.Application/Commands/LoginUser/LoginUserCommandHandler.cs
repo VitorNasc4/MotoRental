@@ -28,7 +28,7 @@ namespace MotoRental.Application.Commands.LoginUser
         }
         public async Task<LoginUserViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de login. Email do usuário: {request.Email}");
+            _logger.LogInformation($"Iniciando processo de login. Email do usuário: {request.Email}");
 
             var passwordHash = _authService.ComputeSha256Hash(request.Password);
 
@@ -43,7 +43,7 @@ namespace MotoRental.Application.Commands.LoginUser
             var token = _authService.GenerateJWTToken(user.Email, user.Role);
             var loginUserViewModel = new LoginUserViewModel(user.Email, token);
 
-            _logger.LogTrace($"Finalizando processo de login. Token gerado com sucesso");
+            _logger.LogInformation($"Finalizando processo de login. Token gerado com sucesso");
 
             return loginUserViewModel;
         }

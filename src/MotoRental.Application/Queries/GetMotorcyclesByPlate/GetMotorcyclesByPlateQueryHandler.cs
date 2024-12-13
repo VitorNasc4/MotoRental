@@ -20,13 +20,13 @@ namespace MotoRental.Application.Queries.GetMotorcycleByPlate
         }
         public async Task<List<MotorcylceViewModel>> Handle(GetMotorcyclesByPlateQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de busca de moto pela placa: {request.Plate}");
+            _logger.LogInformation($"Iniciando processo de busca de moto pela placa: {request.Plate}");
             var motorcycles = await _motorcycleRepository.GetMotorcyclesByPlateAsync(request.Plate);
             var motorcyclesViewModelList = new List<MotorcylceViewModel>();
 
             if (motorcycles.Count == 0)
             {
-                _logger.LogTrace($"Finalizando com sucesso processo de busca de moto por placa. Não foi encontrado nenhum resultado");
+                _logger.LogInformation($"Finalizando com sucesso processo de busca de moto por placa. Não foi encontrado nenhum resultado");
                 return motorcyclesViewModelList;
             }
 
@@ -35,7 +35,7 @@ namespace MotoRental.Application.Queries.GetMotorcycleByPlate
                 motorcyclesViewModelList.Add(new MotorcylceViewModel(motorcycle.Id, motorcycle.Year, motorcycle.Model, motorcycle.Plate));
             }
 
-            _logger.LogTrace($"Finalizando com sucesso processo de busca de moto por placa. Foram encontrados {motorcyclesViewModelList.Count} resultados");
+            _logger.LogInformation($"Finalizando com sucesso processo de busca de moto por placa. Foram encontrados {motorcyclesViewModelList.Count} resultados");
 
             return motorcyclesViewModelList;
         }

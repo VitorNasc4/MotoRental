@@ -25,7 +25,7 @@ namespace MotoRental.Application.Commands.UpdateRental
         }
         public async Task<Unit> Handle(UpdateRentalCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de atualização de aluguel. Id do aluguel: {request.RentalId}");
+            _logger.LogInformation($"Iniciando processo de atualização de aluguel. Id do aluguel: {request.RentalId}");
 
             var rentalById = await _rentalRepository.GetRentalByIdAsync(request.RentalId);
 
@@ -38,7 +38,7 @@ namespace MotoRental.Application.Commands.UpdateRental
             rentalById.SetReturnDate(request.NewDate);
             await _rentalRepository.SaveChangesAsync();
 
-            _logger.LogTrace($"Finalizando processo de atualização de aluguel. Id do registro atualizado: {rentalById.Id}");
+            _logger.LogInformation($"Finalizando processo de atualização de aluguel. Id do registro atualizado: {rentalById.Id}");
 
             return Unit.Value;
         }

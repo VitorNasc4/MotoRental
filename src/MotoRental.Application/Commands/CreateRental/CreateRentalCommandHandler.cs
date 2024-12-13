@@ -28,7 +28,7 @@ namespace MotoRental.Application.Commands.CreateRental
         }
         public async Task<Unit> Handle(CreateRentalCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de registro de novo aluguel. Dados: {request}");
+            _logger.LogInformation($"Iniciando processo de registro de novo aluguel. Dados: {request}");
 
             var motorcycle = await _motorcycleRepository.GetMotorcycleByIdAsync(request.moto_id);
             if (motorcycle is null)
@@ -54,7 +54,7 @@ namespace MotoRental.Application.Commands.CreateRental
 
             await _rentalRepository.AddAsync(rental);
 
-            _logger.LogTrace($"Finalizando processo de registro de novo aluguel com sucesso. Id de registro: {rental.Id}");
+            _logger.LogInformation($"Finalizando processo de registro de novo aluguel com sucesso. Id de registro: {rental.Id}");
 
             return Unit.Value;
         }

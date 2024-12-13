@@ -104,10 +104,10 @@ namespace MotoRental.Messaging.Consumer
                           await dbContext.Motorcycles.AddAsync(motorcycle);
                           await dbContext.SaveChangesAsync();
 
-                          _logger.LogTrace($"Registro criado com sucesso. Id: {motorcycle.Id}");
+                          _logger.LogInformation($"Registro criado com sucesso. Id: {motorcycle.Id}");
 
                           if (motorcycle.Year == "2024")
-                            _logger.LogTrace($"A moto registrada é do ano 2024");
+                            _logger.LogInformation($"A moto registrada é do ano 2024");
 
                       }
                       catch (Exception e)

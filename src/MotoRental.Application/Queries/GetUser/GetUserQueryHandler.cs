@@ -25,7 +25,7 @@ namespace MotoRental.Application.Queries.GetUser
         }
         public async Task<UserViewModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de busca de usuário pelo Id: {request.Id}");
+            _logger.LogInformation($"Iniciando processo de busca de usuário pelo Id: {request.Id}");
             var user = await _userRepository.GetUserByIdAsync(request.Id);
 
             if (user is null)
@@ -34,7 +34,7 @@ namespace MotoRental.Application.Queries.GetUser
                 throw new UserIdNotFoundException(request.Id);
             }
 
-            _logger.LogTrace($"Finalizando processo de busca de usuário pelo Id: {request.Id}. Registro encontrado com sucesso");
+            _logger.LogInformation($"Finalizando processo de busca de usuário pelo Id: {request.Id}. Registro encontrado com sucesso");
             return new UserViewModel(user.FullName, user.Email);
         }
     }

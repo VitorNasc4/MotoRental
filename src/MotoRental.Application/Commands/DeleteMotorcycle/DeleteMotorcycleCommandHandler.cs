@@ -30,7 +30,7 @@ namespace MotoRental.Application.Commands.DeleteMotorcycle
         }
         public async Task<Unit> Handle(DeleteMotorcycleCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de deleção de moto. Id da moto a ser deletada: {request.MotorcycleId}");
+            _logger.LogInformation($"Iniciando processo de deleção de moto. Id da moto a ser deletada: {request.MotorcycleId}");
 
             var motorcycleById = await _motorcycleRepository.GetMotorcycleByIdAsync(request.MotorcycleId);
             
@@ -51,7 +51,7 @@ namespace MotoRental.Application.Commands.DeleteMotorcycle
 
             await _motorcycleRepository.RemoveAsync(motorcycleById);
 
-            _logger.LogTrace($"Finalizando processo de deleção de moto com sucesso.");
+            _logger.LogInformation($"Finalizando processo de deleção de moto com sucesso.");
 
             return Unit.Value;
         }

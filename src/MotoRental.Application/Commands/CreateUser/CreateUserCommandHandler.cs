@@ -29,7 +29,7 @@ namespace MotoRental.Application.Commands.CreateUser
         }
         public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Iniciando processo de registro de novo usuário. Dados: {request}");
+            _logger.LogInformation($"Iniciando processo de registro de novo usuário. Dados: {request}");
 
             var emailAlreadyExist = await _userRepository.CheckEmailExist(request.Email);
 
@@ -44,7 +44,7 @@ namespace MotoRental.Application.Commands.CreateUser
 
             await _userRepository.AddAsync(user);
 
-            _logger.LogTrace($"Finalizando processo de registro de novo usuário com sucesso. Id de registro: {user.Id}");
+            _logger.LogInformation($"Finalizando processo de registro de novo usuário com sucesso. Id de registro: {user.Id}");
 
             return user.Id;
         }
