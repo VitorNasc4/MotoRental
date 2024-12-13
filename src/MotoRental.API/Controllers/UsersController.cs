@@ -14,7 +14,7 @@ using MotoRental.Core.Exceptions;
 
 namespace MotoRental.API.Controllers
 {
-    [Route("api/users")]
+    [Route("usuarios")]
     [Authorize]
     public class UsersController : ControllerBase
     {
@@ -24,7 +24,6 @@ namespace MotoRental.API.Controllers
             _mediator = mediator;
         }
 
-        // api/users/1
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetUserById(string id)
@@ -46,7 +45,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/users
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
@@ -66,7 +64,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/users/1/admin
         [HttpPut("{id}/admin")]
         [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> UpdateUserToAdmin(string id, [FromBody] UpdateUserInputModel inputModel)
@@ -89,7 +86,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/users/1/login
         [HttpPut("login")]
         [AllowAnonymous]
         public async Task<ActionResult> Login([FromBody] LoginUserCommand command)

@@ -11,7 +11,7 @@ using MotoRental.Application.Commands.UpdateRental;
 
 namespace MotoRental.API.Controllers
 {
-    [Route("apirentals")]
+    [Route("locacao")]
     [Authorize]
     public class RentalController : ControllerBase
     {
@@ -21,7 +21,6 @@ namespace MotoRental.API.Controllers
             _mediator = mediator;
         }
 
-        // apirentals
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateRental([FromBody] CreateRentalCommand command)
@@ -50,7 +49,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // apirentals/1
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetRentalById(string id)
@@ -77,7 +75,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // apirentals/1/return
         [HttpPut("{id}/return")]
         [Authorize]
         public async Task<ActionResult> RentalReturn(string id, [FromBody] UpdateRentalCommand command)

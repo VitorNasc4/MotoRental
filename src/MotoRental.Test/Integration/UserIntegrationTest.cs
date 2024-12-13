@@ -47,7 +47,7 @@ namespace MotoRental.Test.Integration
 
             var user = new LoginUserCommand { Email = "dummyEmail@email.com", Password = "teste123"};
 
-            var result = await client.PutAsJsonAsync("api/users/login", user);
+            var result = await client.PutAsJsonAsync("usuarios/login", user);
 
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
@@ -66,7 +66,7 @@ namespace MotoRental.Test.Integration
             await dbContext.SaveChangesAsync();
 
             var loginUserCommand = new LoginUserCommand { Email = user.Email, Password = password};
-            var result = await client.PutAsJsonAsync("api/users/login", loginUserCommand);
+            var result = await client.PutAsJsonAsync("usuarios/login", loginUserCommand);
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
@@ -76,7 +76,7 @@ namespace MotoRental.Test.Integration
             using var client = _factory.CreateClient();
 
             var createUserCommand = new CreateUserCommand { FullName = "Dummy Name", Email = "dummyEmail@email.com", Password = "teste123"};
-            var result1 = await client.PostAsJsonAsync("api/users", createUserCommand);
+            var result1 = await client.PostAsJsonAsync("usuarios", createUserCommand);
 
             Assert.Equal(HttpStatusCode.Created, result1.StatusCode);
 
@@ -87,10 +87,10 @@ namespace MotoRental.Test.Integration
             using var client = _factory.CreateClient();
 
             var createUserCommand1 = new CreateUserCommand { FullName = "Dummy Name", Email = "dummyEmail@email.com", Password = "teste123"};
-            await client.PostAsJsonAsync("api/users", createUserCommand1);
+            await client.PostAsJsonAsync("usuarios", createUserCommand1);
 
             var createUserCommand2 = new CreateUserCommand { FullName = "Dummy Name 2", Email = "dummyEmail@email.com", Password = "teste1234"};
-            var result = await client.PostAsJsonAsync("api/users", createUserCommand1);
+            var result = await client.PostAsJsonAsync("usuarios", createUserCommand1);
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
@@ -105,7 +105,7 @@ namespace MotoRental.Test.Integration
             dbContext.Users.Add(user);
             await dbContext.SaveChangesAsync();
 
-            var result = await client.GetAsync($"api/users/{user.Id}");
+            var result = await client.GetAsync($"usuarios/{user.Id}");
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
@@ -118,7 +118,7 @@ namespace MotoRental.Test.Integration
         {
             using var client = _factory.CreateClient();
 
-            var result = await client.GetAsync($"api/users/dummyId");
+            var result = await client.GetAsync($"usuarios/dummyId");
 
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
 
@@ -136,7 +136,7 @@ namespace MotoRental.Test.Integration
 
             var updateUserInputModel = new UpdateUserInputModel { isAdmin = true };
 
-            var result = await client.PutAsJsonAsync($"api/users/{user.Id}/admin", updateUserInputModel);
+            var result = await client.PutAsJsonAsync($"usuarios/{user.Id}/admin", updateUserInputModel);
 
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
 

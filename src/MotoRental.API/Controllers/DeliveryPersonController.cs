@@ -10,7 +10,7 @@ using MotoRental.Application.InputModels;
 
 namespace MotoRental.API.Controllers
 {
-    [Route("api/deliveryPerson")]
+    [Route("entregadores")]
     [Authorize]
     public class DeliveryPersonController : ControllerBase
     {
@@ -20,7 +20,6 @@ namespace MotoRental.API.Controllers
             _mediator = mediator;
         }
 
-        // api/deliveryPerson
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateDeliveryPerson([FromBody] CreateDeliveryPersonCommand command)
@@ -40,7 +39,6 @@ namespace MotoRental.API.Controllers
                 return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
             }
         }
-        // api/deliveryPerson/1/cnh
         [HttpPost("{id}/cnh")]
         [Authorize]
         public async Task<IActionResult> UploadCnhImage(string id, [FromBody] UploadCnhImageInputModel inputModel)
@@ -63,8 +61,5 @@ namespace MotoRental.API.Controllers
             }
         }
 
-
-
-        
     }
 }

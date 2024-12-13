@@ -39,7 +39,7 @@ namespace MotoRental.Test.Integration
             dbContext.Motorcycles.Add(motorcycle);
             await dbContext.SaveChangesAsync();
 
-            var result = await client.GetAsync($"api/motorcycles/{motorcycle.Id}");
+            var result = await client.GetAsync($"motos/{motorcycle.Id}");
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
@@ -48,7 +48,7 @@ namespace MotoRental.Test.Integration
         {
             using var client = _factory.CreateClient();
 
-            var result = await client.GetAsync($"api/motorcycles/dummyId");
+            var result = await client.GetAsync($"motos/dummyId");
 
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
 
@@ -63,7 +63,7 @@ namespace MotoRental.Test.Integration
             dbContext.Motorcycles.Add(motorcycle);
             await dbContext.SaveChangesAsync();
 
-            var result = await client.GetAsync($"api/motorcycles/plate?plate={motorcycle.Plate}");
+            var result = await client.GetAsync($"motos/placa?plate={motorcycle.Plate}");
 
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
@@ -72,7 +72,7 @@ namespace MotoRental.Test.Integration
         {
             using var client = _factory.CreateClient();
 
-            var result = await client.GetAsync($"api/motorcycles/plate?plate=dummyPlate");
+            var result = await client.GetAsync($"motos/placa?plate=dummyPlate");
 
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
         }
@@ -88,7 +88,7 @@ namespace MotoRental.Test.Integration
 
             var updateMotorcycleInputModel = new UpdateMotorcycleInputModel { placa = "dummmy nova placa" };
 
-            var result = await client.PutAsJsonAsync($"api/motorcycles/{motorcycle.Id}/plate", updateMotorcycleInputModel);
+            var result = await client.PutAsJsonAsync($"motos/{motorcycle.Id}/placa", updateMotorcycleInputModel);
 
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
 
@@ -111,7 +111,7 @@ namespace MotoRental.Test.Integration
 
             var updateMotorcycleInputModel = new UpdateMotorcycleInputModel { placa = motorcycle1.Plate };
 
-            var result = await client.PutAsJsonAsync($"api/motorcycles/{motorcycle2.Id}/plate", updateMotorcycleInputModel);
+            var result = await client.PutAsJsonAsync($"motos/{motorcycle2.Id}/placa", updateMotorcycleInputModel);
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
@@ -122,7 +122,7 @@ namespace MotoRental.Test.Integration
 
             var updateMotorcycleInputModel = new UpdateMotorcycleInputModel { placa = "dummmy nova placa" };
 
-            var result = await client.PutAsJsonAsync($"api/motorcycles/dummyId/plate", updateMotorcycleInputModel);
+            var result = await client.PutAsJsonAsync($"motos/dummyId/placa", updateMotorcycleInputModel);
 
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
@@ -136,7 +136,7 @@ namespace MotoRental.Test.Integration
             dbContext.Motorcycles.Add(motorcycle);
             await dbContext.SaveChangesAsync();
 
-            var result = await client.DeleteAsync($"api/motorcycles/{motorcycle.Id}");
+            var result = await client.DeleteAsync($"motos/{motorcycle.Id}");
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
 
             dbContext.ChangeTracker.Clear();
@@ -149,7 +149,7 @@ namespace MotoRental.Test.Integration
         {
             using var client = _factory.CreateClient();
 
-            var result = await client.DeleteAsync($"api/motorcycles/dummyId");
+            var result = await client.DeleteAsync($"motos/dummyId");
 
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
@@ -167,7 +167,7 @@ namespace MotoRental.Test.Integration
             dbContext.Rentals.Add(rental);
             await dbContext.SaveChangesAsync();
 
-            var result = await client.DeleteAsync($"api/motorcycles/{motorcycle.Id}");
+            var result = await client.DeleteAsync($"motos/{motorcycle.Id}");
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
         public async Task InitializeAsync()

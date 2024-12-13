@@ -38,7 +38,7 @@ namespace MotoRental.Test.Integration
                 numero_cnh = "123",
                 tipo_cnh = "A"
             };
-            var result = await client.PostAsJsonAsync("api/deliveryPerson", createDeliveryPersonCommand);
+            var result = await client.PostAsJsonAsync("entregadores", createDeliveryPersonCommand);
 
             Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
 
@@ -58,7 +58,7 @@ namespace MotoRental.Test.Integration
                 numero_cnh = "123",
                 tipo_cnh = "A"
             };
-            var result = await client.PostAsJsonAsync("api/deliveryPerson", createDeliveryPersonCommand);
+            var result = await client.PostAsJsonAsync("entregadores", createDeliveryPersonCommand);
 
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
@@ -75,20 +75,36 @@ namespace MotoRental.Test.Integration
                 numero_cnh = "123",
                 tipo_cnh = "A"
             };
-            var result = await client.PostAsJsonAsync("api/deliveryPerson", createDeliveryPersonCommand);
+            var result = await client.PostAsJsonAsync("entregadores", createDeliveryPersonCommand);
 
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
         [Fact]
-        public async Task POST_CreateUser_OnFailure()
+        public async Task POST_CreateDeliveryPerson_OnConflict()
         {
             using var client = _factory.CreateClient();
 
-            var createUserCommand1 = new CreateUserCommand { FullName = "Dummy Name", Email = "dummyEmail@email.com", Password = "teste123"};
-            await client.PostAsJsonAsync("api/users", createUserCommand1);
+            var createDeliveryPersonCommand = new CreateDeliveryPersonCommand 
+            { 
+                nome = "Dummy Name",
+                cnpj = "34283411000153",
+                data_nascimento = DateTime.Today.AddYears(-18),
+                numero_cnh = "123",
+                tipo_cnh = "A"
+            };
+    
+            await client.PostAsJsonAsync("entregadores", createDeliveryPersonCommand);
 
-            var createUserCommand2 = new CreateUserCommand { FullName = "Dummy Name 2", Email = "dummyEmail@email.com", Password = "teste1234"};
-            var result = await client.PostAsJsonAsync("api/users", createUserCommand1);
+            var createDeliveryPersonCommand2 = new CreateDeliveryPersonCommand 
+            { 
+                nome = "Dummy Name2",
+                cnpj = "34283411000153",
+                data_nascimento = DateTime.Today.AddYears(-18),
+                numero_cnh = "1234",
+                tipo_cnh = "A"
+            };
+
+            var result = await client.PostAsJsonAsync("entregadores", createDeliveryPersonCommand2);
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }

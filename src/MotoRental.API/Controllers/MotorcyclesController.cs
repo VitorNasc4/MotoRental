@@ -14,7 +14,7 @@ using MotoRental.Application.InputModels;
 
 namespace MotoRental.API.Controllers
 {
-    [Route("api/motorcycles")]
+    [Route("motos")]
     [Authorize]
     public class MotorcyclesController : ControllerBase
     {
@@ -24,7 +24,6 @@ namespace MotoRental.API.Controllers
             _mediator = mediator;
         }
 
-        // api/motorcycles/1
         [HttpGet("{id}")]
         [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> GetMotorcycleById(string id)
@@ -51,8 +50,7 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/motorcycles/plate=123
-        [HttpGet("plate")]
+        [HttpGet("placa")]
         [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> GetMotorcycleByPlate([FromQuery] string plate)
         {
@@ -74,7 +72,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/motorcycles
         [HttpPost]
         [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> CreateMotorcycle([FromBody] CreateMotorcycleCommand command)
@@ -95,8 +92,7 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/motorcycles/1/plate
-        [HttpPut("{id}/plate")]
+        [HttpPut("{id}/placa")]
         [Authorize(Roles = RoleTypes.Admin)]
         public async Task<ActionResult> ChangePlate(string id, [FromBody] UpdateMotorcycleInputModel inputModel)
         {
@@ -122,7 +118,6 @@ namespace MotoRental.API.Controllers
             }
         }
 
-        // api/motorcycles/1
         [HttpDelete("{id}")]
         [Authorize(Roles = RoleTypes.Admin)]
         public async Task<IActionResult> DeleteMotorcycle(string id)
