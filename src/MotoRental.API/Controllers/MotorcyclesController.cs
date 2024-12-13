@@ -63,7 +63,7 @@ namespace MotoRental.API.Controllers
 
                 if (motorcylces.Count == 0)
                 {
-                    return NotFound();
+                    return NoContent();
                 }
 
                 return Ok(motorcylces);
@@ -140,7 +140,7 @@ namespace MotoRental.API.Controllers
             }
             catch (MotorcycleRentalHistoricFoundException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return Conflict(new { message = ex.Message });
             }
             catch (Exception ex)
             {

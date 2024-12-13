@@ -13,11 +13,6 @@ namespace MotoRental.Application.Validators
     {
         public CreateMotorcycleCommandValidator()
         {
-            RuleFor(u => u.identificador)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Identificador é obrigatório");
-
             RuleFor(u => u.ano)
                 .NotNull()
                 .NotEmpty()

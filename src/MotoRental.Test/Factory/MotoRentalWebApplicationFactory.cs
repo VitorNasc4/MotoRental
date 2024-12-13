@@ -15,16 +15,22 @@ namespace MotoRental.Test.Integration.Factory
 {
     public class MotoRentalWebApplicationFactory:WebApplicationFactory<Program>
     {
+        private readonly MotoRentalDbContext _sharedDbContext;
+        public MotoRentalWebApplicationFactory(MotoRentalDbContext sharedDbContext)
+        {
+            _sharedDbContext = sharedDbContext;
+        }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Testing");
-            var root = new InMemoryDatabaseRoot();
             
             builder.ConfigureServices( services =>
             {
                 services.RemoveAll(typeof (DbContextOptions<MotoRentalDbContext>));
+
+                services.AddSingleton(_sharedDbContext);
                 services.AddDbContext<MotoRentalDbContext>(options =>
-                    options.UseInMemoryDatabase("MotoRentalDatabase", root));
+                    options.UseInMemoryDatabase("MotoRentalDatabase"));
                 
                 services.AddAuthentication("TestAuth")
                     .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestAuth", options => { });

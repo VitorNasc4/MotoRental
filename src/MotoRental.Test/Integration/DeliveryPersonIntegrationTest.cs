@@ -13,28 +13,22 @@ using Xunit;
 
 namespace MotoRental.Test.Integration
 {
-    public class DeliveryPersonIntegrationTest
+    public class DeliveryPersonIntegrationTest : IClassFixture<DatabaseFixture>, IAsyncLifetime
     {
-        private readonly IConfiguration _configuration;
-        private readonly AuthService _authService;
-        private Dictionary<string, string?> inMemorySettings = new Dictionary<string, string?> {
-            {"Jwt:Issuer", "teste1"},
-            {"Jwt:Audience","teste2"},
-            {"Jwt:Key","teste3"}
-        };
-        public DeliveryPersonIntegrationTest()
+        private readonly DatabaseFixture _fixture;
+        private readonly MotoRentalWebApplicationFactory _factory;
+        public DeliveryPersonIntegrationTest(DatabaseFixture fixture)
         {
-            _configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(inMemorySettings)
-                .Build();;
-            _authService = new AuthService(_configuration);
+            _fixture = fixture;
+            _factory = new MotoRentalWebApplicationFactory(_fixture.DbContext);
+
+            _fixture.ClearDatabase();
         }
         [Fact]
         public async Task POST_CreateDeliveryPerson_OnSucces()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-            using var dbContext = app.CreateDbContext();
+            var dbContext = _fixture.DbContext;
+            using var client = _factory.CreateClient();
 
             var createDeliveryPersonCommand = new CreateDeliveryPersonCommand 
             { 
@@ -54,9 +48,7 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task POST_CreateDeliveryPerson_ReturnsBadRequest_ForUnder18YearsOld()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-            using var dbContext = app.CreateDbContext();
+            using var client = _factory.CreateClient();
 
             var createDeliveryPersonCommand = new CreateDeliveryPersonCommand 
             { 
@@ -73,9 +65,7 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task POST_CreateDeliveryPerson_ReturnsBadRequest_ForInvalidCNPJ()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-            using var dbContext = app.CreateDbContext();
+            using var client = _factory.CreateClient();
 
             var createDeliveryPersonCommand = new CreateDeliveryPersonCommand 
             { 
@@ -92,9 +82,7 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task POST_CreateUser_OnFailure()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-
+            using var client = _factory.CreateClient();
 
             var createUserCommand1 = new CreateUserCommand { FullName = "Dummy Name", Email = "dummyEmail@email.com", Password = "teste123"};
             await client.PostAsJsonAsync("api/users", createUserCommand1);
@@ -104,5 +92,12 @@ namespace MotoRental.Test.Integration
 
             Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
         }
+        public async Task InitializeAsync()
+        {
+            await _fixture.DbContext.Database.EnsureDeletedAsync();
+            await _fixture.DbContext.Database.EnsureCreatedAsync();
+        }
+
+        public Task DisposeAsync() => Task.CompletedTask;
     }
 }

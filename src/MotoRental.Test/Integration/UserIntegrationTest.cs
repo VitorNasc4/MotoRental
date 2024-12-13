@@ -17,30 +17,35 @@ using Xunit;
 
 namespace MotoRental.Test.Integration
 {
-    public class UserIntegrationTest
+    public class UserIntegrationTest : IClassFixture<DatabaseFixture>, IAsyncLifetime
     {
         private readonly IConfiguration _configuration;
         private readonly AuthService _authService;
+        private readonly DatabaseFixture _fixture;
+        private readonly MotoRentalWebApplicationFactory _factory;
         private Dictionary<string, string?> inMemorySettings = new Dictionary<string, string?> {
             {"Jwt:Issuer", "teste1"},
             {"Jwt:Audience","teste2"},
             {"Jwt:Key","teste3"}
         };
-        public UserIntegrationTest()
+        public UserIntegrationTest(DatabaseFixture fixture)
         {
             _configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();;
             _authService = new AuthService(_configuration);
+
+            _fixture = fixture;
+            _factory = new MotoRentalWebApplicationFactory(_fixture.DbContext);
+
+            _fixture.ClearDatabase();
         }
         [Fact]
         public async Task PUT_Login_OnFailure()
         {
-            var app = new MotoRentalWebApplicationFactory();
+            using var client = _factory.CreateClient();
 
             var user = new LoginUserCommand { Email = "dummyEmail@email.com", Password = "teste123"};
-
-            using var client = app.CreateClient();
 
             var result = await client.PutAsJsonAsync("api/users/login", user);
 
@@ -49,9 +54,8 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task PUT_Login_OnSuccess()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-            using var dbContext = app.CreateDbContext();
+            var dbContext = _fixture.DbContext;
+            using var client = _factory.CreateClient();
 
             var password = "teste123";
             var hashedPassword = _authService.ComputeSha256Hash(password);
@@ -69,9 +73,7 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task POST_CreateUser_OnSucces()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-
+            using var client = _factory.CreateClient();
 
             var createUserCommand = new CreateUserCommand { FullName = "Dummy Name", Email = "dummyEmail@email.com", Password = "teste123"};
             var result1 = await client.PostAsJsonAsync("api/users", createUserCommand);
@@ -82,9 +84,7 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task POST_CreateUser_OnFailure()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-
+            using var client = _factory.CreateClient();
 
             var createUserCommand1 = new CreateUserCommand { FullName = "Dummy Name", Email = "dummyEmail@email.com", Password = "teste123"};
             await client.PostAsJsonAsync("api/users", createUserCommand1);
@@ -97,9 +97,8 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task GET_GetUserById_OnSuccess()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-            using var dbContext = app.CreateDbContext();
+            var dbContext = _fixture.DbContext;
+            using var client = _factory.CreateClient();
 
             var user = new User("Dummy Name", "dummyEmail@email.com", "dummyPassword", RoleTypes.Delivery);
 
@@ -117,8 +116,7 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task GET_GetUserById_OnFailure()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
+            using var client = _factory.CreateClient();
 
             var result = await client.GetAsync($"api/users/dummyId");
 
@@ -128,9 +126,8 @@ namespace MotoRental.Test.Integration
         [Fact]
         public async Task PUT_UpdateUserToAdmin_OnSuccess()
         {
-            var app = new MotoRentalWebApplicationFactory();
-            using var client = app.CreateClient();
-            using var dbContext = app.CreateDbContext();
+            var dbContext = _fixture.DbContext;
+            using var client = _factory.CreateClient();
 
             var user = new User("Dummy Name", "dummyEmail@email.com", "dummyPassword", RoleTypes.Delivery);
 
@@ -148,5 +145,13 @@ namespace MotoRental.Test.Integration
             var resultData = await dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
             Assert.Equal(RoleTypes.Admin, resultData!.Role);
         }
-    }
+
+        public async Task InitializeAsync()
+        {
+            await _fixture.DbContext.Database.EnsureDeletedAsync();
+            await _fixture.DbContext.Database.EnsureCreatedAsync();
+        }
+
+        public Task DisposeAsync() => Task.CompletedTask;
+        }
 }
