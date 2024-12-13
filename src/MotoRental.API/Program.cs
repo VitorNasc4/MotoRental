@@ -22,6 +22,7 @@ using MotoRental.Infrastructure.MessageBus;
 using MotoRental.Core.Entities;
 using MotoRental.Infrastructure.ImageUploadService;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +35,20 @@ var DB_HOST = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
 // Para usar o Postgres
 var rawConnectionString = builder.Configuration.GetConnectionString("MotoRentalCsPostgres");
 var connectionString = rawConnectionString.Replace("DB_HOST", DB_HOST);
-builder.Services.AddDbContext<MotoRentalDbContext>
-    (option => option.UseNpgsql(connectionString));
+builder.Services.AddDbContext<MotoRentalDbContext>(options =>
+{
+    string ENVIRONMENT = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
+
+    if (ENVIRONMENT == "Testing") // Usa banco em memória apenas no ambiente de teste
+    {
+        options.UseInMemoryDatabase("MotoRentalDatabase");
+    }
+    else
+    {
+        options.UseNpgsql(connectionString);
+    }
+});
+
 
 // Injeções de dependências
 builder.Services.AddMediatR(typeof(CreateUserCommand));
