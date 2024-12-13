@@ -39,7 +39,9 @@ namespace MotoRental.Application.Queries.GetRentalById
                 rental.StartDate,
                 rental.EndDate,
                 rental.ExpectedReturnDate,
-                rental.ActualReturnDate
+                rental.ActualReturnDate,
+                rental.TotalCost,
+                rental.Penalty
             );
         }
     }

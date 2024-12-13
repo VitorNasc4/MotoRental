@@ -6,7 +6,17 @@ namespace MotoRental.Application.ViewModels
 {
     public class RentalViewModel
     {
-        public RentalViewModel(string Identificador, decimal valorDiaria, string entregadorId, string motoId, DateTime dataInicio, DateTime dataTermino, DateTime dataPrevistaTermino, DateTime? dataDevolucao)
+        public RentalViewModel(
+            string Identificador, 
+            decimal valorDiaria, 
+            string entregadorId, 
+            string motoId, 
+            DateTime dataInicio, 
+            DateTime dataTermino, 
+            DateTime dataPrevistaTermino, 
+            DateTime? dataDevolucao,
+            decimal totalCost,
+            decimal penalty)
         {
             identificador = Identificador;
             valor_diaria = valorDiaria;
@@ -16,7 +26,8 @@ namespace MotoRental.Application.ViewModels
             data_termino = dataTermino;
             data_prevista_termino = dataPrevistaTermino;
             data_devolucao = dataDevolucao;
-            
+            custo_total = totalCost;
+            multa = penalty;
         }
 
         public string identificador { get; private set; }
@@ -27,5 +38,7 @@ namespace MotoRental.Application.ViewModels
         public DateTime data_termino { get; private set; }
         public DateTime data_prevista_termino { get; private set; }
         public DateTime? data_devolucao { get; private set; }
+        public decimal custo_total { get; private set; }
+        public decimal multa { get; private set; }
     }
 }
