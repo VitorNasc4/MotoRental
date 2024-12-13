@@ -15,7 +15,13 @@ Sistema de gerenciamento de aluguel de motos e entregadores.
 **IMPORTANTE:** Deve ser solicitado ao autor do projeto a **Chave de Conexão** e o **Nome do Container** para preencher o `appsettings.json` da API. Sem esses dados o sistema de envio de imagem da CNH não funcionará.
 
 Estando na raiz do projeto, dar o comando `docker compose up -d`.
-A API subirá ouvindo a porta 5000 (acessível em `http://localhost:5000/swagger/index.html`)
+A API subirá ouvindo a porta 5000 (acessível em `http://localhost:5000/swagger/index.html`).
+
+Se preferir subir via código, certifique-se de ter um banco de dados Postgres e mensageria com RabbitMQ ajustados com os dados do `appsettings.json`. Em seguida basta dar o comando `dotnet run` nos diretórios `src/MotoRental.API` para iniciar a API e no diretório `src/MotoRental.Messaging` para iniciar o consumer.
+
+## Rodando os testes:
+
+Basta dar o comando `dotnet test` estando no diretório `src/MotoRental.Test`.
 
 ## Observações
 Ao subir o projeto, um usuário com permissão de administrador será criado de forma automática. Os dados de acesso para login são:
